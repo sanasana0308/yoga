@@ -2,940 +2,825 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light only">
-<title>肺的解剖 × 瑜伽呼吸｜瑜伽師資培訓</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>肺的解剖 × 四大呼吸驅動系統｜瑜伽師資培訓</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500&display=swap');
-
-  html, body { color-scheme: light only; }
-  :root {
-    --ink: #1a1a2e;
-    --warm: #f7f3ee;
-    --breath-in: #7eb8c9;
-    --breath-out: #c9a87e;
-    --accent: #d46b4b;
-    --muted: #8a8a99;
-    --card: #ffffff;
-    --diaphragm: #e8a87c;
-    --lung-l: #b8d4de;
-    --lung-r: #a8c8d8;
-    --rib: #d4c5b0;
-    --trachea: #c8b8d4;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: #f7f3ee !important;
-    color: #1a1a2e !important;
-    font-family: 'Noto Sans TC', sans-serif;
-    min-height: 100vh;
-    -webkit-color-scheme: light;
-  }
-
-  header {
-    padding: 32px 40px 20px;
-    border-bottom: 1px solid rgba(26,26,46,0.1);
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    background: #f7f3ee;
-  }
-
-  header h1 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-  }
-
-  header span {
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  .breath-bar {
-    background: var(--ink);
-    color: white;
-    padding: 10px 40px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-  }
-
-  .breath-label {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 600;
-    font-size: 15px;
-    min-width: 40px;
-  }
-
-  .breath-track {
-    flex: 1;
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 2px;
-    overflow: hidden;
-    max-width: 300px;
-  }
-
-  .breath-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.1s linear, background 0.3s;
-  }
-
-  .breath-phase {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    min-width: 60px;
-  }
-
-  .toggle-btn {
-    margin-left: auto;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 12px;
-    font-family: 'Noto Sans TC', sans-serif;
-    letter-spacing: 0.05em;
-    transition: background 0.2s;
-  }
-
-  .toggle-btn:hover { background: rgba(255,255,255,0.25); }
-
-  .main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: calc(100vh - 110px);
-  }
-  @media (max-width: 700px) {
-    .main {
-      grid-template-columns: 1fr;
-    }
-    .anatomy-panel {
-      border-right: none;
-      border-bottom: 1px solid rgba(26,26,46,0.08);
-      padding: 24px 20px;
-    }
-    .svg-wrap {
-      width: 100%;
-      max-width: 320px;
-    }
-    .info-panel {
-      padding: 24px 20px;
-    }
-    header {
-      padding: 20px 20px 14px;
-      flex-wrap: wrap;
-    }
-    .breath-bar {
-      padding: 10px 20px;
-    }
-  }
-
-  /* LEFT: SVG anatomy */
-  .anatomy-panel {
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-right: 1px solid rgba(26,26,46,0.08);
-    position: relative;
-    background: #f7f3ee;
-  }
-
-  .anatomy-title {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    align-self: flex-start;
-  }
-
-  .svg-wrap {
-    position: relative;
-    width: 320px;
-    height: 420px;
-  }
-
-  svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-
-  /* clickable parts */
-  .part {
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-
-  .part:hover { opacity: 0.8; }
-  .part.active { filter: drop-shadow(0 0 8px rgba(212,107,75,0.6)); }
-
-  /* legend */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-    margin-top: 24px;
-    justify-content: center;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--ink);
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: background 0.15s;
-  }
-
-  .legend-item:hover { background: rgba(26,26,46,0.06); }
-  .legend-item.active { background: rgba(212,107,75,0.12); }
-
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* RIGHT: info panel */
-  .info-panel {
-    padding: 40px;
-    overflow-y: auto;
-    background: #f7f3ee;
-  }
-
-  .info-section {
-    display: none;
-  }
-
-  .info-section.visible {
-    display: block;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .info-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .info-name {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 28px;
-    font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 4px;
-  }
-
-  .info-en {
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    margin-bottom: 24px;
-  }
-
-  .info-block {
-    margin-bottom: 24px;
-  }
-
-  .info-block h3 {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(26,26,46,0.08);
-  }
-
-  .info-block p {
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--ink);
-  }
-
-  .tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .tag {
-    background: rgba(126,184,201,0.2);
-    border: 1px solid rgba(126,184,201,0.4);
-    color: #3a7a8a;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    letter-spacing: 0.03em;
-  }
-
-  .tag.yoga {
-    background: rgba(212,107,75,0.1);
-    border-color: rgba(212,107,75,0.3);
-    color: var(--accent);
-  }
-
-  .yoga-card {
-    background: var(--card);
-    border-left: 3px solid var(--accent);
-    padding: 14px 16px;
-    border-radius: 0 8px 8px 0;
-    margin-top: 12px;
-    font-size: 13px;
-    line-height: 1.8;
-  }
-
-  .yoga-card strong {
-    display: block;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-
-  .sandy-quote {
-    background: var(--ink);
-    color: white;
-    padding: 16px 20px;
-    border-radius: 8px;
-    margin-top: 16px;
-    font-size: 13px;
-    line-height: 1.7;
-    font-style: italic;
-  }
-
-  .sandy-quote::before {
-    content: '🥪 Sandy說：';
-    display: block;
-    font-style: normal;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 6px;
-  }
-
-  .placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-height: 300px;
-    color: var(--muted);
-    text-align: center;
-    gap: 12px;
-  }
-
-  .placeholder-icon {
-    font-size: 40px;
-    opacity: 0.4;
-  }
-
-  .placeholder p {
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  /* breath animation on lungs */
-  @keyframes inhale {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-  }
-
-  .lung-animate {
-    transform-origin: center bottom;
-  }
-
-  .breathing .lung-animate {
-    animation: inhale 4s ease-in-out infinite;
-  }
-
-  @keyframes diaphragm-move {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
-    100% { transform: translateY(0); }
-  }
-
-  .diaphragm-animate {
-    transform-origin: center;
-  }
-
-  .breathing .diaphragm-animate {
-    animation: diaphragm-move 4s ease-in-out infinite;
-  }
-
-  @keyframes rib-expand {
-    0% { transform: scaleX(1); }
-    50% { transform: scaleX(1.04); }
-    100% { transform: scaleX(1); }
-  }
-
-  .rib-animate {
-    transform-origin: center;
-  }
-
-  .breathing .rib-animate {
-    animation: rib-expand 4s ease-in-out infinite;
-  }
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500&display=swap");
+html,body{color-scheme:light only;}
+:root{
+  --ink:#1a1a2e;--warm:#f7f3ee;--breath-in:#7eb8c9;--breath-out:#c9a87e;
+  --accent:#d46b4b;--muted:#8a8a99;--card:#ffffff;
+  --diaphragm:#e8a87c;--lung-l:#b8d4de;--lung-r:#a8c8d8;
+  --rib:#d4c5b0;--trachea:#c8b8d4;--abs:#7a9a78;--pelvic:#9878a8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f7f3ee !important;color:#1a1a2e !important;font-family:"Noto Sans TC",sans-serif;min-height:100vh;}
+header{padding:28px 40px 18px;border-bottom:1px solid rgba(26,26,46,.1);display:flex;align-items:baseline;gap:16px;background:#f7f3ee;}
+header h1{font-family:"Noto Serif TC",serif;font-size:22px;font-weight:900;letter-spacing:.05em;}
+header span{font-size:13px;color:var(--muted);letter-spacing:.08em;}
+/* Breath bar */
+.breath-bar{background:var(--ink);color:white;padding:9px 40px;display:flex;align-items:center;gap:16px;font-size:13px;letter-spacing:.05em;flex-wrap:wrap;}
+.breath-label{font-family:"Noto Serif TC",serif;font-weight:600;font-size:15px;min-width:40px;}
+.breath-track{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden;max-width:260px;min-width:80px;}
+.breath-fill{height:100%;border-radius:2px;transition:background .3s;}
+.breath-phase{font-size:12px;color:rgba(255,255,255,.6);min-width:60px;}
+.breath-btns{display:flex;gap:6px;margin-left:auto;}
+.phase-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:white;padding:5px 12px;border-radius:16px;cursor:pointer;font-size:12px;font-family:"Noto Sans TC",sans-serif;letter-spacing:.04em;transition:all .2s;white-space:nowrap;}
+.phase-btn:hover{background:rgba(255,255,255,.22);}
+.phase-btn.on-in{background:#4a9ab8;border-color:#4a9ab8;}
+.phase-btn.on-ex{background:#c87941;border-color:#c87941;}
+.phase-btn.on-loop{background:rgba(255,255,255,.28);}
+/* Layout */
+.main{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 130px);}
+@media(max-width:700px){
+  .main{grid-template-columns:1fr;}
+  .anatomy-panel{border-right:none;border-bottom:1px solid rgba(26,26,46,.08);padding:24px 20px;}
+  .svg-wrap{width:100%;max-width:320px;}
+  .info-panel{padding:24px 20px;}
+  header{padding:20px 20px 14px;flex-wrap:wrap;}
+  .breath-bar{padding:9px 20px;gap:10px;}
+  .breath-btns{flex-wrap:wrap;}
+}
+/* Left: anatomy */
+.anatomy-panel{padding:32px 40px;display:flex;flex-direction:column;align-items:center;border-right:1px solid rgba(26,26,46,.08);background:#f7f3ee;}
+.anatomy-title{font-size:11px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;align-self:flex-start;}
+.svg-wrap{position:relative;width:320px;height:460px;}
+svg{width:100%;height:100%;overflow:visible;}
+.part{cursor:pointer;transition:opacity .2s;}
+.part:hover{opacity:.8;}
+.part.active{filter:drop-shadow(0 0 8px rgba(212,107,75,.6));}
+/* Legend */
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:20px;justify-content:center;}
+.legend-section{width:100%;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 0 2px;border-top:1px solid rgba(26,26,46,.07);margin-top:4px;}
+.legend-section:first-child{border-top:none;margin-top:0;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink);cursor:pointer;padding:4px 8px;border-radius:4px;transition:background .15s;}
+.legend-item:hover{background:rgba(26,26,46,.06);}
+.legend-item.active{background:rgba(212,107,75,.12);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+/* Right: info */
+.info-panel{padding:40px;overflow-y:auto;background:#f7f3ee;}
+.info-section{display:none;}
+.info-section.visible{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.info-eyebrow{font-size:11px;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+.info-name{font-family:"Noto Serif TC",serif;font-size:28px;font-weight:900;line-height:1.2;margin-bottom:4px;}
+.info-en{font-size:13px;color:var(--muted);letter-spacing:.05em;margin-bottom:4px;}
+.info-role{font-size:13px;color:var(--accent);font-weight:500;letter-spacing:.03em;margin-bottom:22px;}
+.info-block{margin-bottom:22px;}
+.info-block h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(26,26,46,.08);}
+.info-block p{font-size:14px;line-height:1.82;color:var(--ink);}
+/* Step list */
+.info-steps{display:flex;flex-direction:column;gap:5px;margin:10px 0;}
+.info-step{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.75;}
+.info-step-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin-top:2px;}
+.info-step-num.in{background:#4a9ab8;}
+.info-step-num.ex{background:#c87941;}
+.info-step-arr{font-size:11px;color:#aaa;padding:3px 0;letter-spacing:.03em;}
+.info-note{background:var(--ink);color:rgba(255,255,255,.88);padding:14px 16px;border-radius:8px;margin-top:14px;font-size:13px;line-height:1.78;}
+/* Tags */
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.tag{background:rgba(126,184,201,.2);border:1px solid rgba(126,184,201,.4);color:#3a7a8a;padding:4px 10px;border-radius:12px;font-size:12px;letter-spacing:.03em;}
+/* Yoga card */
+.yoga-card{background:var(--card);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 8px 8px 0;margin-top:12px;font-size:13px;line-height:1.8;}
+.yoga-card strong{display:block;font-size:12px;letter-spacing:.08em;color:var(--accent);margin-bottom:4px;}
+/* Sandy quote */
+.sandy-quote{background:var(--ink);color:white;padding:16px 20px;border-radius:8px;margin-top:16px;font-size:13px;line-height:1.7;font-style:italic;}
+.sandy-quote::before{content:"Sandy說：";display:block;font-style:normal;font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:6px;}
+/* Placeholder */
+.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:300px;color:var(--muted);text-align:center;gap:12px;}
+.placeholder-icon{font-size:40px;opacity:.4;}
+.placeholder p{font-size:14px;line-height:1.6;}
+/* Lung/rib CSS transform origins */
+.lung-animate{transform-origin:center bottom;}
+.rib-animate{transform-origin:center;}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>肺的解剖 × 瑜伽呼吸</h1>
+  <h1>肺的解剖 × 四大呼吸驅動系統</h1>
   <span>瑜伽師資培訓｜解剖學報告</span>
 </header>
 
-
-<div id="introOverlay" style="
-  position:fixed; inset:0; background:#f7f3ee; z-index:100;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:40px; text-align:center;
-">
-  <div style="max-width:560px;">
-    <div style="font-size:11px;letter-spacing:0.15em;color:#8a8a99;text-transform:uppercase;margin-bottom:16px;">瑜伽師資培訓｜解剖學報告</div>
-    <h2 style="font-family:'Noto Serif TC',serif;font-size:32px;font-weight:900;line-height:1.3;color:#1a1a2e;margin-bottom:12px;">呼吸是一個系統<br>不是一個動作</h2>
-    <p style="font-size:15px;color:#4a4a5e;line-height:1.8;margin-bottom:32px;">肺沒有肌肉。<br>它是被動的，靠橫膈膜、肋骨、腹部、骨盆底<br>共同驅動的一套系統。<br><br>這個互動圖讓你看見每個部位做了什麼。</p>
-    <div style="background:#1a1a2e;color:white;padding:16px 20px;border-radius:8px;margin-bottom:32px;font-size:13px;line-height:1.8;font-style:italic;">
-      「請先吸一口氣——<br>感受你的肚子有沒有動。」
+<!-- Intro overlay -->
+<div id="introOverlay" style="position:fixed;inset:0;background:#f7f3ee;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;">
+  <div style="max-width:580px;">
+    <div style="font-size:11px;letter-spacing:.15em;color:#8a8a99;text-transform:uppercase;margin-bottom:16px;">瑜伽師資培訓｜解剖學報告</div>
+    <h2 style="font-family:'Noto Serif TC',serif;font-size:30px;font-weight:900;line-height:1.3;color:#1a1a2e;margin-bottom:12px;">呼吸是一個系統<br>不是一個動作</h2>
+    <p style="font-size:15px;color:#4a4a5e;line-height:1.85;margin-bottom:28px;">肺沒有肌肉，它是被動的。<br>靠橫膈膜、肋骨、腹部、骨盆底四個一起工作，<br>才能讓空氣流入流出。</p>
+    <div style="background:#1a1a2e;color:white;padding:16px 20px;border-radius:8px;margin-bottom:28px;font-size:13px;line-height:1.85;text-align:left;">
+      <div style="font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:8px;">波義耳定律 — 呼吸的物理邏輯</div>
+      吸氣時：呼吸肌收縮 → 胸腔體積增大 → 內壓低於大氣壓 → 空氣流入<br>
+      吐氣時：肌肉放鬆 → 肺彈性回彈 → 內壓升高 → 氣體流出
     </div>
-    <div style="display:flex;flex-direction:column;gap:12px;text-align:left;margin-bottom:32px;">
+    <div style="display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:28px;">
       <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="background:#d46b4b;color:white;padding:2px 8px;border-radius:4px;font-size:11px;letter-spacing:0.05em;flex-shrink:0;margin-top:2px;">01</span>
-        <div>
-          <div style="font-size:14px;font-weight:500;color:#1a1a2e;margin-bottom:2px;">肺做不了什麼</div>
-          <div style="font-size:13px;color:#6a6a7e;">肺沒有肌肉，是被動元件。這是後面所有呼吸法的基礎。</div>
-        </div>
+        <span style="background:#e8a87c;color:white;padding:2px 8px;border-radius:4px;font-size:11px;flex-shrink:0;margin-top:2px;">橫膈膜</span>
+        <div style="font-size:13px;color:#4a4a5e;">主引擎。負責 70–80% 吸氣工作量，下沉創造壓差。</div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="background:#d46b4b;color:white;padding:2px 8px;border-radius:4px;font-size:11px;letter-spacing:0.05em;flex-shrink:0;margin-top:2px;">02</span>
-        <div>
-          <div style="font-size:14px;font-weight:500;color:#1a1a2e;margin-bottom:2px;">是什麼在驅動肺</div>
-          <div style="font-size:13px;color:#6a6a7e;">橫膈膜、肋骨、腹部、骨盆底——四個一起工作的系統。</div>
-        </div>
+        <span style="background:#c8b898;color:#5a4a2e;padding:2px 8px;border-radius:4px;font-size:11px;flex-shrink:0;margin-top:2px;">肋間外肌</span>
+        <div style="font-size:13px;color:#4a4a5e;">副引擎。肋骨上提外擴，打開胸廓四個方向。</div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="background:#d46b4b;color:white;padding:2px 8px;border-radius:4px;font-size:11px;letter-spacing:0.05em;flex-shrink:0;margin-top:2px;">03</span>
-        <div>
-          <div style="font-size:14px;font-weight:500;color:#1a1a2e;margin-bottom:2px;">這跟體式有什麼關係</div>
-          <div style="font-size:13px;color:#6a6a7e;">從拜日式、英雄式到倒立——每個動作都在影響這個系統。</div>
-        </div>
+        <span style="background:#7a9a78;color:white;padding:2px 8px;border-radius:4px;font-size:11px;flex-shrink:0;margin-top:2px;">腹肌</span>
+        <div style="font-size:13px;color:#4a4a5e;">煞車＋主動呼氣。控制橫膈膜下沉速度，主動推氣排出。</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span style="background:#9878a8;color:white;padding:2px 8px;border-radius:4px;font-size:11px;flex-shrink:0;margin-top:2px;">骨盆底肌</span>
+        <div style="font-size:13px;color:#4a4a5e;">底板。調節腹內壓，是核心穩定的底端封板。</div>
       </div>
     </div>
-    <button onclick="document.getElementById('introOverlay').style.display='none'" style="
-      background:#1a1a2e;color:white;border:none;padding:14px 36px;
-      border-radius:24px;font-size:14px;font-family:'Noto Sans TC',sans-serif;
-      letter-spacing:0.08em;cursor:pointer;
-    ">點擊部位開始探索 →</button>
+    <button onclick="document.getElementById('introOverlay').style.display='none'" style="background:#1a1a2e;color:white;border:none;padding:14px 36px;border-radius:24px;font-size:14px;font-family:'Noto Sans TC',sans-serif;letter-spacing:.08em;cursor:pointer;">點擊部位開始探索 →</button>
   </div>
 </div>
 
+<!-- Breath bar -->
 <div class="breath-bar">
-  <span class="breath-label" id="breathLabel">吸氣</span>
+  <span class="breath-label" id="breathLabel">—</span>
   <div class="breath-track">
     <div class="breath-fill" id="breathFill" style="width:0%;background:var(--breath-in)"></div>
   </div>
-  <span class="breath-phase" id="breathPhase">準備中…</span>
-  <button class="toggle-btn" id="toggleBtn" onclick="toggleBreath()">▶ 開始呼吸</button>
+  <span class="breath-phase" id="breathPhase">選擇呼吸模式</span>
+  <div class="breath-btns">
+    <button class="phase-btn" id="btn-in" onclick="breathPhaseBtn('inhale')">⬇ 吸氣</button>
+    <button class="phase-btn" id="btn-ex" onclick="breathPhaseBtn('exhale')">⬆ 吐氣</button>
+    <button class="phase-btn" id="btn-loop" onclick="toggleBreath()">↺ 連續</button>
+  </div>
 </div>
 
 <div class="main">
 
-  <!-- LEFT: anatomy SVG -->
-  <div class="anatomy-panel" id="anatomyPanel">
-    <div class="anatomy-title">點擊部位查看說明</div>
+<!-- LEFT: SVG anatomy -->
+<div class="anatomy-panel" id="anatomyPanel">
+  <div class="anatomy-title">點擊部位查看說明</div>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 320 460" id="bodySvg">
+  <defs>
+    <linearGradient id="g-ll" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4dce8"/><stop offset="100%" stop-color="#88b4cc"/>
+    </linearGradient>
+    <linearGradient id="g-lr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b8d4e2"/><stop offset="100%" stop-color="#7eacc4"/>
+    </linearGradient>
+    <linearGradient id="g-ab" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8aaa86"/><stop offset="100%" stop-color="#587856"/>
+    </linearGradient>
+    <linearGradient id="g-pv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#aa80ba"/><stop offset="100%" stop-color="#7e5888"/>
+    </linearGradient>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+  </defs>
 
-    <div class="svg-wrap">
-      <svg viewBox="0 0 320 420" id="bodySvg">
+  <!-- Body silhouette -->
+  <path d="M102 18 Q84 26 74 62 Q62 108 60 172 Q58 238 66 284 Q74 320 82 360 Q90 396 106 422 Q124 442 160 444 Q196 442 214 422 Q230 396 238 360 Q246 320 254 284 Q262 238 260 172 Q258 108 246 62 Q236 26 218 18 Z"
+    fill="#f0e0cc" stroke="#c8a880" stroke-width="0.8" opacity="0.30"/>
 
-        <!-- neck / trachea area -->
-        <g class="part" id="part-trachea" onclick="selectPart('trachea')">
-          <!-- trachea tube -->
-          <rect x="148" y="30" width="24" height="70" rx="12" fill="var(--trachea)" opacity="0.85"/>
-          <!-- trachea rings (cartilage) -->
-          <line x1="148" y1="45" x2="172" y2="45" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <line x1="148" y1="55" x2="172" y2="55" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <line x1="148" y1="65" x2="172" y2="65" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <line x1="148" y1="75" x2="172" y2="75" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <line x1="148" y1="85" x2="172" y2="85" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <!-- bronchi split -->
-          <path d="M148 98 Q130 108 118 120" fill="none" stroke="var(--trachea)" stroke-width="10" stroke-linecap="round"/>
-          <path d="M172 98 Q190 108 202 120" fill="none" stroke="var(--trachea)" stroke-width="10" stroke-linecap="round"/>
-        </g>
+  <!-- Trachea -->
+  <g class="part" id="part-trachea" onclick="selectPart('trachea')">
+    <rect x="148" y="28" width="24" height="70" rx="12" fill="var(--trachea)" opacity="0.85"/>
+    <line x1="148" y1="43" x2="172" y2="43" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="148" y1="53" x2="172" y2="53" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="148" y1="63" x2="172" y2="63" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="148" y1="73" x2="172" y2="73" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="148" y1="83" x2="172" y2="83" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <path d="M148 96 Q130 106 118 118" fill="none" stroke="var(--trachea)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M172 96 Q190 106 202 118" fill="none" stroke="var(--trachea)" stroke-width="10" stroke-linecap="round"/>
+  </g>
 
-        <!-- rib cage -->
-        <g class="part rib-animate" id="part-ribs" onclick="selectPart('ribs')">
-          <!-- sternum -->
-          <rect x="152" y="100" width="16" height="130" rx="4" fill="var(--rib)" opacity="0.7"/>
-          <!-- ribs left -->
-          <path d="M152 110 Q100 105 78 125" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-          <path d="M152 125 Q95 118 72 140" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-          <path d="M152 140 Q92 135 68 158" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-          <path d="M152 155 Q90 152 67 175" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
-          <path d="M152 170 Q88 168 68 190" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.65"/>
-          <path d="M152 184 Q90 184 74 204" fill="none" stroke="var(--rib)" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
-          <!-- ribs right -->
-          <path d="M168 110 Q220 105 242 125" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-          <path d="M168 125 Q225 118 248 140" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-          <path d="M168 140 Q228 135 252 158" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-          <path d="M168 155 Q230 152 253 175" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
-          <path d="M168 170 Q232 168 252 190" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.65"/>
-          <path d="M168 184 Q230 184 246 204" fill="none" stroke="var(--rib)" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
-        </g>
+  <!-- Ribs -->
+  <g class="part rib-animate" id="part-ribs" onclick="selectPart('ribs')" style="transform-origin:160px 155px">
+    <rect x="152" y="98" width="16" height="130" rx="4" fill="var(--rib)" opacity="0.7"/>
+    <path d="M152 108 Q100 103 78 123" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+    <path d="M152 123 Q95 116 72 138" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+    <path d="M152 138 Q92 133 68 156" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.72"/>
+    <path d="M152 153 Q90 150 67 173" fill="none" stroke="var(--rib)" stroke-width="6.5" stroke-linecap="round" opacity="0.67"/>
+    <path d="M152 168 Q88 166 68 188" fill="none" stroke="var(--rib)" stroke-width="6.5" stroke-linecap="round" opacity="0.62"/>
+    <path d="M152 183 Q90 182 74 202" fill="none" stroke="var(--rib)" stroke-width="6" stroke-linecap="round" opacity="0.56"/>
+    <path d="M168 108 Q220 103 242 123" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+    <path d="M168 123 Q225 116 248 138" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+    <path d="M168 138 Q228 133 252 156" fill="none" stroke="var(--rib)" stroke-width="7" stroke-linecap="round" opacity="0.72"/>
+    <path d="M168 153 Q230 150 253 173" fill="none" stroke="var(--rib)" stroke-width="6.5" stroke-linecap="round" opacity="0.67"/>
+    <path d="M168 168 Q232 166 252 188" fill="none" stroke="var(--rib)" stroke-width="6.5" stroke-linecap="round" opacity="0.62"/>
+    <path d="M168 183 Q230 182 246 202" fill="none" stroke="var(--rib)" stroke-width="6" stroke-linecap="round" opacity="0.56"/>
+  </g>
 
-        <!-- lungs -->
-        <!-- left lung -->
-        <g class="part lung-animate" id="part-lung-l" onclick="selectPart('lung')">
-          <path d="M118 120 Q80 140 72 180 Q68 220 80 250 Q95 278 118 280 Q138 275 148 255 L148 120 Z"
-            fill="var(--lung-l)" opacity="0.85"/>
-          <!-- lobe line left -->
-          <path d="M110 155 Q125 180 140 200" fill="none" stroke="white" stroke-width="1.5" opacity="0.5" stroke-dasharray="4,3"/>
-          <path d="M95 200 Q118 215 140 225" fill="none" stroke="white" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
-        </g>
+  <!-- Left lung -->
+  <g class="part lung-animate" id="part-lung-l" onclick="selectPart('lung')" style="transform-origin:112px 196px">
+    <path d="M118 118 Q80 138 72 178 Q66 218 78 250 Q93 279 117 281 Q137 276 148 256 L148 118 Z"
+      fill="url(#g-ll)" opacity="0.88"/>
+    <path d="M108 153 Q124 178 140 198" fill="none" stroke="white" stroke-width="1.5" opacity="0.45" stroke-dasharray="4,3"/>
+    <path d="M93 200 Q117 215 140 225" fill="none" stroke="white" stroke-width="1.5" opacity="0.37" stroke-dasharray="4,3"/>
+  </g>
 
-        <!-- right lung -->
-        <g class="part lung-animate" id="part-lung-r" onclick="selectPart('lung')">
-          <path d="M202 120 Q240 140 248 180 Q252 220 240 250 Q225 278 202 280 Q182 275 172 255 L172 120 Z"
-            fill="var(--lung-r)" opacity="0.85"/>
-          <!-- lobe lines right -->
-          <path d="M210 150 Q195 175 180 195" fill="none" stroke="white" stroke-width="1.5" opacity="0.5" stroke-dasharray="4,3"/>
-          <path d="M224 195 Q205 212 180 222" fill="none" stroke="white" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
-          <path d="M220 168 Q205 185 185 200" fill="none" stroke="white" stroke-width="1.5" opacity="0.35" stroke-dasharray="4,3"/>
-        </g>
+  <!-- Right lung -->
+  <g class="part lung-animate" id="part-lung-r" onclick="selectPart('lung')" style="transform-origin:208px 196px">
+    <path d="M202 118 Q240 138 248 178 Q254 218 242 250 Q227 279 203 281 Q183 276 172 256 L172 118 Z"
+      fill="url(#g-lr)" opacity="0.88"/>
+    <path d="M212 148 Q196 173 181 193" fill="none" stroke="white" stroke-width="1.5" opacity="0.45" stroke-dasharray="4,3"/>
+    <path d="M226 192 Q207 210 181 220" fill="none" stroke="white" stroke-width="1.5" opacity="0.37" stroke-dasharray="4,3"/>
+    <path d="M221 166 Q205 183 185 197" fill="none" stroke="white" stroke-width="1.2" opacity="0.30" stroke-dasharray="4,3"/>
+  </g>
 
-        <!-- heart (not interactive, just context) -->
-        <g opacity="0.35">
-          <path d="M148 155 Q148 140 160 140 Q172 140 172 155 Q172 170 160 185 Q148 170 148 155Z"
-            fill="#e88a8a"/>
-        </g>
+  <!-- Heart (non-interactive) -->
+  <g opacity="0.32">
+    <path d="M148 153 Q148 138 160 138 Q172 138 172 153 Q172 168 160 183 Q148 168 148 153Z" fill="#e88a8a"/>
+  </g>
 
-        <!-- diaphragm -->
-        <g class="part diaphragm-animate" id="part-diaphragm" onclick="selectPart('diaphragm')">
-          <path d="M68 280 Q100 300 160 298 Q220 300 252 280 Q240 320 200 330 Q160 338 120 330 Q80 320 68 280Z"
-            fill="var(--diaphragm)" opacity="0.8"/>
-          <!-- muscle fiber lines -->
-          <path d="M90 288 Q120 308 160 306" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
-          <path d="M100 296 Q130 314 160 312" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
-          <path d="M230 288 Q200 308 160 306" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
-          <path d="M220 296 Q190 314 160 312" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
-        </g>
+  <!-- Diaphragm -->
+  <g class="part diaphragm-animate" id="part-diaphragm" onclick="selectPart('diaphragm')" style="transform-origin:160px 296px">
+    <path d="M68 280 Q100 300 160 298 Q220 300 252 280 Q240 320 200 330 Q160 338 120 330 Q80 320 68 280Z"
+      fill="var(--diaphragm)" opacity="0.85"/>
+    <path d="M90 288 Q120 308 160 306" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+    <path d="M100 296 Q130 314 160 312" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+    <path d="M230 288 Q200 308 160 306" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+    <path d="M220 296 Q190 314 160 312" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+  </g>
 
-        <!-- abdominal area hint -->
-        <g class="part" id="part-abdomen" onclick="selectPart('abdomen')" opacity="0.5">
-          <ellipse cx="160" cy="370" rx="70" ry="35" fill="#c8d4b0" opacity="0.6"/>
-        </g>
+  <!-- Abs (腹肌) -->
+  <g class="part" id="part-abs" onclick="selectPart('abs')" style="transform-origin:160px 374px">
+    <path d="M70 340 Q115 356 160 354 Q205 356 250 340 L246 402 Q202 418 160 416 Q118 418 74 402 Z"
+      fill="url(#g-ab)" stroke="#3a6838" stroke-width="0.8" opacity="0.82"/>
+    <line x1="160" y1="340" x2="160" y2="402" stroke="white" stroke-width="1" stroke-dasharray="3,2.5" opacity="0.45"/>
+    <path d="M78 360 Q119 367 160 365 Q201 367 242 360" fill="none" stroke="white" stroke-width="0.9" opacity="0.33"/>
+    <path d="M74 382 Q117 389 160 387 Q203 389 246 382" fill="none" stroke="white" stroke-width="0.9" opacity="0.27"/>
+  </g>
 
-        <!-- labels -->
-        <text x="56" y="68" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">氣管</text>
-        <line x1="100" y1="66" x2="148" y2="60" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <!-- Pelvic floor (骨盆底肌) -->
+  <g class="part" id="part-pelvic" onclick="selectPart('pelvic')" style="transform-origin:160px 424px">
+    <path d="M88 400 Q124 418 160 416 Q196 418 232 400 Q220 434 196 440 Q160 444 124 440 Q100 434 88 400Z"
+      fill="url(#g-pv)" stroke="#58387a" stroke-width="0.8" opacity="0.85"/>
+    <path d="M103 408 Q131 422 160 420" fill="none" stroke="white" stroke-width="0.9" opacity="0.38"/>
+    <path d="M217 408 Q189 422 160 420" fill="none" stroke="white" stroke-width="0.9" opacity="0.38"/>
+  </g>
 
-        <text x="46" y="200" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">左肺</text>
-        <line x1="66" y1="198" x2="90" y2="200" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <!-- Labels -->
+  <text x="54" y="66" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">氣管</text>
+  <line x1="94" y1="64" x2="148" y2="58" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <text x="44" y="198" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">左肺</text>
+  <line x1="64" y1="196" x2="88" y2="198" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <text x="276" y="198" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">右肺</text>
+  <line x1="256" y1="196" x2="232" y2="198" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <text x="290" y="148" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">肋骨</text>
+  <line x1="270" y1="146" x2="248" y2="140" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <text x="160" y="322" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="Noto Sans TC">橫膈膜</text>
+  <text x="160" y="378" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="Noto Sans TC">腹肌</text>
+  <text x="160" y="450" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="Noto Sans TC">骨盆底肌</text>
 
-        <text x="274" y="200" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">右肺</text>
-        <line x1="254" y1="198" x2="230" y2="200" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
+  <!-- Direction arrows (JS-controlled) -->
+  <g id="breath-arrows" opacity="0">
+    <line id="arr-d" x1="160" y1="302" x2="160" y2="318" stroke="#e8a87c" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+    <line id="arr-ll" x1="80" y1="194" x2="62" y2="194" stroke="#88b4cc" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+    <line id="arr-lr" x1="240" y1="194" x2="258" y2="194" stroke="#88b4cc" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+    <line id="arr-a" x1="160" y1="374" x2="160" y2="390" stroke="#587856" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+    <line id="arr-p" x1="160" y1="424" x2="160" y2="438" stroke="#7e5888" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  </g>
 
-        <text x="160" y="350" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">橫膈膜</text>
-
-        <text x="160" y="405" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">腹部</text>
-
-        <text x="290" y="145" font-size="10" fill="var(--muted)" font-family="Noto Sans TC" text-anchor="middle">肋骨</text>
-        <line x1="270" y1="143" x2="248" y2="140" stroke="var(--muted)" stroke-width="0.8" opacity="0.5"/>
-
-      </svg>
-    </div>
-
-    <div class="legend">
-      <div class="legend-item" onclick="selectPart('trachea')" id="leg-trachea">
-        <div class="legend-dot" style="background:var(--trachea)"></div> 氣管／支氣管
-      </div>
-      <div class="legend-item" onclick="selectPart('lung')" id="leg-lung">
-        <div class="legend-dot" style="background:var(--lung-l)"></div> 肺葉
-      </div>
-      <div class="legend-item" onclick="selectPart('diaphragm')" id="leg-diaphragm">
-        <div class="legend-dot" style="background:var(--diaphragm)"></div> 橫膈膜
-      </div>
-      <div class="legend-item" onclick="selectPart('ribs')" id="leg-ribs">
-        <div class="legend-dot" style="background:var(--rib)"></div> 肋骨胸廓
-      </div>
-      <div class="legend-item" onclick="selectPart('abdomen')" id="leg-abdomen">
-        <div class="legend-dot" style="background:#c8d4b0"></div> 腹部
-      </div>
-      <div class="legend-item" onclick="selectPart('closing')" id="leg-closing">
-        <div class="legend-dot" style="background:#1a1a2e"></div> 結語
-      </div>
-    </div>
+  </svg>
   </div>
 
-  <!-- RIGHT: info -->
-  <div class="info-panel" id="infoPanel">
-
-    <div class="placeholder" id="placeholder">
-      <div class="placeholder-icon">👆</div>
-      <p>點擊左側任一部位<br>查看解剖結構與瑜伽連結</p>
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-section">解剖結構</div>
+    <div class="legend-item" onclick="selectPart('trachea')" id="leg-trachea">
+      <div class="legend-dot" style="background:var(--trachea)"></div> 氣管／支氣管
     </div>
-
-    <!-- TRACHEA -->
-    <div class="info-section" id="info-trachea">
-      <div class="info-eyebrow">呼吸道</div>
-      <div class="info-name">氣管 × 支氣管</div>
-      <div class="info-en">Trachea & Bronchi</div>
-
-      <div class="info-block">
-        <h3>結構</h3>
-        <p>氣管由 16–20 個 C 形軟骨環組成，長約 10–12 cm，在胸骨角處分叉為左右主支氣管。右主支氣管較粗、較垂直（誤吸異物多在右側）。支氣管持續分支，最終成為細支氣管進入肺泡。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Moore &amp; Dalley, <em>Clinically Oriented Anatomy</em> 7th ed. | Netter, <em>Atlas of Human Anatomy</em> 7th ed.</div>
-        <div class="tag-row">
-          <span class="tag">軟骨環 × 16–20</span>
-          <span class="tag">分叉高度：胸骨角</span>
-          <span class="tag">右側較粗垂直</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>功能</h3>
-        <p>過濾、加溫、加濕空氣。纖毛上皮細胞持續擺動，將異物往上推向咽喉排出（黏液電梯）。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Tortora &amp; Derrickson, <em>Principles of Anatomy &amp; Physiology</em> 15th ed.</div>
-      </div>
-
-      <div class="info-block">
-        <h3>瑜伽連結</h3>
-        <div class="yoga-card">
-          <strong>Ujjayi 勝利呼吸法</strong>
-          微收聲門（Glottis）讓氣流通道變細，通過喉部與氣管時產生溫柔的海浪聲。主動施加微小阻力延長吸吐時間，深度啟動副交感神經。（氣管本身由C形軟骨組成，無法主動收縮——阻力來自更上方的聲門。）
-        </div>
-        <div class="yoga-card">
-          <strong>鼻腔呼吸 vs 口腔呼吸</strong>
-          鼻腔有過濾、加濕功能，瑜伽強調鼻呼吸，進入氣管的空氣品質更穩定。
-        </div>
-      </div>
-
-      <div class="sandy-quote">
-        你每天在呼吸，但空氣從鼻子進去到真正進肺，要走的路比你想像的長很多。氣管那些軟骨環，就是讓這條路永遠保持暢通的工程設計。
-      </div>
+    <div class="legend-item" onclick="selectPart('lung')" id="leg-lung">
+      <div class="legend-dot" style="background:var(--lung-l)"></div> 肺葉
     </div>
-
-    <!-- LUNG -->
-    <div class="info-section" id="info-lung">
-      <div class="info-eyebrow">主要器官</div>
-      <div class="info-name">肺</div>
-      <div class="info-en">Lungs</div>
-
-      <div class="info-block">
-        <h3>結構</h3>
-        <p>左肺兩葉（上葉＋下葉），右肺三葉（上＋中＋下），右肺略大。總肺泡數約 3–5 億個，攤開面積相當於一個網球場（約 70 m²）。肺本身沒有肌肉，完全被動——靠橫膈膜和肋間肌的運動帶動。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Moore &amp; Dalley, <em>Clinically Oriented Anatomy</em> 7th ed. | Tortora &amp; Derrickson, <em>Principles of Anatomy &amp; Physiology</em> 15th ed.</div>
-        <div class="tag-row">
-          <span class="tag">左2葉 右3葉</span>
-          <span class="tag">肺泡 3–5億個</span>
-          <span class="tag">無主動肌肉</span>
-          <span class="tag">表面積 ≈ 70㎡</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>氣體交換</h3>
-        <p>肺泡壁極薄（約 0.1–0.2 μm），與微血管緊貼。O₂ 由高濃度（肺泡）擴散進血液，CO₂ 反向擴散排出。每次呼吸換氣量約 500 ml（潮氣量），深呼吸可到 3000 ml（肺活量）。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Tortora &amp; Derrickson, <em>Principles of Anatomy &amp; Physiology</em> 15th ed.</div>
-        <div class="tag-row">
-          <span class="tag">潮氣量 ~500ml</span>
-          <span class="tag">肺活量 ~3–5L</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>瑜伽連結</h3>
-        <div class="yoga-card">
-          <strong>胸式 vs 腹式呼吸</strong>
-          胸式主要使用上肺葉，腹式（橫膈膜下沉）使用下肺葉。下肺葉在日常受重力影響灌流最豐富，氣體交換效率最高；進入前彎或倒立體式時，血液會因重力移向上肺葉，呼吸模式隨之重組——這正是倒立需要重新適應呼吸的解剖學原因。
-        </div>
-        <div class="yoga-card">
-          <strong>後彎體式（英雄1、輪式）</strong>
-          胸腔前側打開，肋骨上提，增加肺的擴張空間，尤其上肺葉。
-        </div>
-        <div class="yoga-card">
-          <strong>扭轉體式</strong>
-          壓縮一側肺葉後釋放，產生「換氣」效果，清除滯留在肺葉深處的舊空氣。
-        </div>
-      </div>
-
-      <div class="sandy-quote">
-        肺自己不會動，它是被帶著動的。你呼吸的品質，完全取決於你的橫膈膜和肋骨有多少空間可以移動。所以瑜伽開的不是肺，是肺周圍的一切。
-      </div>
+    <div class="legend-item" onclick="selectPart('diaphragm')" id="leg-diaphragm">
+      <div class="legend-dot" style="background:var(--diaphragm)"></div> 橫膈膜
     </div>
-
-    <!-- DIAPHRAGM -->
-    <div class="info-section" id="info-diaphragm">
-      <div class="info-eyebrow">主要呼吸肌</div>
-      <div class="info-name">橫膈膜</div>
-      <div class="info-en">Diaphragm</div>
-
-      <div class="info-block">
-        <h3>結構</h3>
-        <p>圓頂形骨骼肌，分隔胸腔與腹腔。附著於下六根肋骨、胸骨劍突、腰椎（L1–L3）。中央腱（central tendon）是肌腱核心，不收縮。有三個主要開口：食道裂孔（T10）、主動脈裂孔（T12）、腔靜脈裂孔（T8）。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Moore &amp; Dalley, <em>Clinically Oriented Anatomy</em> 7th ed. | Netter, <em>Atlas of Human Anatomy</em> 7th ed.</div>
-        <div class="tag-row">
-          <span class="tag">附著：下6肋＋腰椎</span>
-          <span class="tag">圓頂形骨骼肌</span>
-          <span class="tag">三個主要開口</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>功能</h3>
-        <p>吸氣時收縮下沉（圓頂變平），胸腔容積增加，肺被動擴張，腹部向外推出。呼氣時放鬆上升回圓頂，肺回彈排氣。平靜呼吸時負責 70–80% 的吸氣功。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Tortora &amp; Derrickson, <em>Principles of Anatomy &amp; Physiology</em> 15th ed. | Kaminoff &amp; Matthews, <em>Yoga Anatomy</em> 2nd ed.</div>
-        <div class="tag-row">
-          <span class="tag">吸氣主力 70–80%</span>
-          <span class="tag">吸氣下沉 呼氣上升</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>瑜伽連結</h3>
-        <div class="yoga-card">
-          <strong>腹式呼吸 / 橫膈膜呼吸</strong>
-          練習感受吸氣時腹部鼓起（橫膈膜下沉推腹），呼氣時腹部內收。這是啟動副交感神經最直接的方式。
-        </div>
-        <div class="yoga-card">
-          <strong>Kapalabhati 頭顱清明呼吸</strong>
-          快速主動收縮腹肌，被動讓橫膈膜上彈，快速排出 CO₂，清醒感來源。
-        </div>
-        <div class="yoga-card">
-          <strong>核心穩定與呼吸的關係</strong>
-          橫膈膜是核心四大肌群之一（橫膈膜＋骨盆底肌＋腹橫肌＋多裂肌），四者協調運作調節「腹內壓（Intra-Abdominal Pressure, IAP）」——這是手平衡（烏鴉式）、跳躍後跳輕盈感的核心關鍵。倒立時橫膈膜受重力方向改變，呼吸模式需要重新適應。
-        </div>
-      </div>
-
-      <div class="sandy-quote">
-        壓力大的時候呼吸會變淺——不是你的心理問題，是橫膈膜真的在那個當下沒有往下走。瑜伽說的「深呼吸」，身體層面是在訓練這塊肌肉記得它的工作。
-      </div>
+    <div class="legend-item" onclick="selectPart('ribs')" id="leg-ribs">
+      <div class="legend-dot" style="background:var(--rib)"></div> 肋骨胸廓
     </div>
-
-    <!-- RIBS -->
-    <div class="info-section" id="info-ribs">
-      <div class="info-eyebrow">骨性胸廓</div>
-      <div class="info-name">肋骨 × 胸廓</div>
-      <div class="info-en">Ribs & Thoracic Cage</div>
-
-      <div class="info-block">
-        <h3>結構</h3>
-        <p>12 對肋骨。1–7 對為真肋（直接連胸骨）；8–10 對為假肋（軟骨連接）；11–12 對為浮肋（無前端連接）。肋間外肌負責吸氣時肋骨上提外擴（桶狀擴張），肋間內肌輔助呼氣。</p>
-        <div class="tag-row">
-          <span class="tag">真肋 1–7</span>
-          <span class="tag">假肋 8–10</span>
-          <span class="tag">浮肋 11–12</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>功能</h3>
-        <p>保護心肺，同時作為呼吸輔助結構。吸氣時有兩種運動同時發生：上段肋骨執行「幫浦柄運動（Pump-handle motion）」，胸骨向前上提，增加胸廓前後徑；下段肋骨執行「水桶柄運動（Bucket-handle motion）」，肋骨兩側外擴，增加胸廓左右橫徑。360° 胸廓呼吸訓練的就是這兩個方向都能充分打開。長期圓肩駝背會限制這些關節活動，直接壓縮肺活量。</p>
-      </div>
-
-      <div class="info-block">
-        <h3>瑜伽連結</h3>
-        <div class="yoga-card">
-          <strong>360° 胸廓呼吸</strong>
-          練習感受吸氣時肋骨向四面擴張（前、後、左、右），而非只是肚子鼓起，充分利用中肺葉容量。
-        </div>
-        <div class="yoga-card">
-          <strong>側伸展（三角式、門閂式）</strong>
-          拉伸肋間肌，增加單側肋骨的活動度，對久坐族特別有效。
-        </div>
-        <div class="yoga-card">
-          <strong>英雄1 / 後彎系列</strong>
-          胸骨上提、肋骨前側打開，對抗長時間低頭滑手機造成的胸廓前側緊縮。
-        </div>
-      </div>
-
-      <div class="sandy-quote">
-        你的肋骨每天呼吸兩萬次，但大部分人用到的只有三分之一的空間。瑜伽開胸不是在練柔軟度，是在還給肋骨它本來應該有的活動範圍。
-      </div>
+    <div class="legend-item" onclick="selectPart('abs')" id="leg-abs">
+      <div class="legend-dot" style="background:var(--abs)"></div> 腹肌
     </div>
-
-    <!-- ABDOMEN -->
-    <div class="info-section" id="info-abdomen">
-      <div class="info-eyebrow">呼吸的延伸</div>
-      <div class="info-name">腹部 × 骨盆底</div>
-      <div class="info-en">Abdomen & Pelvic Floor</div>
-
-      <div class="info-block">
-        <h3>與呼吸的關係</h3>
-        <p>腹腔是一個封閉的液壓系統。橫膈膜下沉時，腹腔壓力增加，腹壁向外推出（腹部鼓起），同時骨盆底肌輕微下降。呼氣時腹肌收縮、橫膈膜上升、骨盆底肌上提，形成一個協調的壓力循環。</p><div style="font-size:11px;color:#8a8a99;margin-top:8px;letter-spacing:0.03em;">📖 Kaminoff &amp; Matthews, <em>Yoga Anatomy</em> 2nd ed. | Tortora &amp; Derrickson, <em>Principles of Anatomy &amp; Physiology</em> 15th ed.</div>
-        <div class="tag-row">
-          <span class="tag">腹腔液壓系統</span>
-          <span class="tag">骨盆底連動</span>
-          <span class="tag">核心四肌群</span>
-        </div>
-      </div>
-
-      <div class="info-block">
-        <h3>瑜伽連結</h3>
-        <div class="yoga-card">
-          <strong>Mula Bandha 根鎖</strong>
-          輕微上提骨盆底肌，與呼氣協調，穩定脊椎下端，在倒立和平衡體式中至關重要。
-        </div>
-        <div class="yoga-card">
-          <strong>Uddiyana Bandha 臍鎖</strong>
-          全呼氣後腹肌上提，橫膈膜被動上拱，按摩腹腔器官，刺激迷走神經。
-        </div>
-        <div class="yoga-card">
-          <strong>產後、久坐族的核心重建</strong>
-          從呼吸重新連結橫膈膜—腹橫肌—骨盆底的協調，是核心訓練的真正起點。
-        </div>
-      </div>
-
-      <div class="sandy-quote">
-        很多人練瑜伽一直在找「核心在哪」，但核心不是一塊六塊肌，是橫膈膜、腹橫肌、骨盆底肌、多裂肌四個一起工作的系統。而這四個，全部跟你的呼吸有關。
-      </div>
+    <div class="legend-item" onclick="selectPart('pelvic')" id="leg-pelvic">
+      <div class="legend-dot" style="background:var(--pelvic)"></div> 骨盆底肌
     </div>
-
-
-  <!-- closing section -->
-  <div class="info-section" id="info-closing" style="padding-top:8px;">
-    <div style="background:#1a1a2e;color:white;padding:24px;border-radius:8px;line-height:1.9;font-size:14px;">
-      <div style="font-size:11px;letter-spacing:0.12em;color:rgba(255,255,255,0.4);margin-bottom:12px;">結語</div>
-      我們在墊子上訓練的，<br>
-      不只是身體的形狀，<br>
-      是這個系統重新記得怎麼工作。
+    <div class="legend-section">呼吸機制</div>
+    <div class="legend-item" onclick="selectPart('inhale');breathPhaseBtn('inhale')" id="leg-inhale">
+      <div class="legend-dot" style="background:#4a9ab8"></div> 吸氣機制
     </div>
-  </div>
-
+    <div class="legend-item" onclick="selectPart('exhale');breathPhaseBtn('exhale')" id="leg-exhale">
+      <div class="legend-dot" style="background:#c87941"></div> 吐氣機制
+    </div>
+    <div class="legend-item" onclick="selectPart('why')" id="leg-why">
+      <div class="legend-dot" style="background:#d46b4b"></div> 為什麼有用
+    </div>
+    <div class="legend-item" onclick="selectPart('posture')" id="leg-posture">
+      <div class="legend-dot" style="background:#1a1a2e"></div> 姿勢影響
+    </div>
+    <div class="legend-item" onclick="selectPart('closing')" id="leg-closing">
+      <div class="legend-dot" style="background:#8a8a99"></div> 結語
+    </div>
   </div>
 </div>
 
+<!-- RIGHT: Info panel -->
+<div class="info-panel" id="infoPanel">
+
+  <div class="placeholder" id="placeholder">
+    <div class="placeholder-icon">👆</div>
+    <p>點擊左側任一部位或圖例<br>查看解剖結構與瑜伽連結</p>
+  </div>
+
+  <!-- TRACHEA -->
+  <div class="info-section" id="info-trachea">
+    <div class="info-eyebrow">呼吸道</div>
+    <div class="info-name">氣管 × 支氣管</div>
+    <div class="info-en">Trachea &amp; Bronchi</div>
+    <div class="info-block">
+      <h3>結構</h3>
+      <p>氣管由 16–20 個 C 形軟骨環組成，長約 10–12 cm，在胸骨角處分叉為左右主支氣管。右主支氣管較粗、較垂直。支氣管持續分支，最終成為細支氣管進入肺泡。</p>
+      <div class="tag-row">
+        <span class="tag">軟骨環 × 16–20</span>
+        <span class="tag">分叉高度：胸骨角</span>
+        <span class="tag">右側較粗垂直</span>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>功能</h3>
+      <p>過濾、加溫、加濕空氣。纖毛上皮細胞持續擺動，將異物往上推向咽喉排出（黏液電梯）。</p>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>Ujjayi 勝利呼吸法</strong>
+        微收聲門讓氣流通道變細，通過喉部與氣管時產生溫柔的海浪聲。施加微小阻力延長吸吐時間，深度啟動副交感神經。
+      </div>
+      <div class="yoga-card">
+        <strong>鼻腔呼吸 vs 口腔呼吸</strong>
+        鼻腔有過濾、加濕功能，瑜伽強調鼻呼吸，進入氣管的空氣品質更穩定。
+      </div>
+    </div>
+    <div class="sandy-quote">你每天在呼吸，但空氣從鼻子進去到真正進肺，要走的路比你想像的長很多。氣管那些軟骨環，就是讓這條路永遠保持暢通的工程設計。</div>
+  </div>
+
+  <!-- LUNG -->
+  <div class="info-section" id="info-lung">
+    <div class="info-eyebrow">主要器官</div>
+    <div class="info-name">肺</div>
+    <div class="info-en">Lungs</div>
+    <div class="info-block">
+      <h3>結構</h3>
+      <p>左肺兩葉（上葉＋下葉），右肺三葉（上＋中＋下），右肺略大。總肺泡數約 3–5 億個，攤開面積相當於一個網球場（約 70 m²）。<strong>肺本身沒有肌肉，完全被動</strong>——靠橫膈膜和肋間肌的運動帶動。</p>
+      <div class="tag-row">
+        <span class="tag">左 2 葉 右 3 葉</span>
+        <span class="tag">肺泡 3–5 億個</span>
+        <span class="tag">無主動肌肉</span>
+        <span class="tag">表面積 ≈ 70 ㎡</span>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>氣體交換</h3>
+      <p>肺泡壁極薄（約 0.1–0.2 μm），與微血管緊貼。O₂ 由高濃度（肺泡）擴散進血液，CO₂ 反向擴散排出。平靜呼吸每次換氣約 500 ml（潮氣量），深呼吸可到 3,000–5,000 ml（肺活量）。下肺葉微血管密度最高，是氣體交換效率最佳的區域，也是大多數人最少用到的地方。</p>
+      <div class="tag-row">
+        <span class="tag">潮氣量 ~500 ml</span>
+        <span class="tag">肺活量 ~3–5 L</span>
+        <span class="tag">平靜時只用約 10%</span>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>為什麼要練習深呼吸</strong>
+        深呼吸啟動下肺葉通氣——那裡的微血管密度最高，氣體交換效率最好。同時刺激表面活性劑（Surfactant）更新，維持肺泡彈性。這是深呼吸的真正生理價值，不只是「放鬆」。
+      </div>
+      <div class="yoga-card">
+        <strong>後彎體式（英雄1、輪式）</strong>
+        胸腔前側打開，肋骨上提，增加肺的擴張空間，尤其上肺葉。
+      </div>
+      <div class="yoga-card">
+        <strong>倒立體式</strong>
+        血液因重力移向上肺葉，呼吸模式隨之重組——這正是倒立需要重新適應呼吸的解剖學原因。
+      </div>
+    </div>
+    <div class="sandy-quote">肺自己不會動，它是被帶著動的。你呼吸的品質，完全取決於你的橫膈膜和肋骨有多少空間可以移動。所以瑜伽開的不是肺，是肺周圍的一切。</div>
+  </div>
+
+  <!-- INHALE mechanism -->
+  <div class="info-section" id="info-inhale">
+    <div class="info-eyebrow">吸氣機制</div>
+    <div class="info-name">吸氣</div>
+    <div class="info-en">Inhalation — Active Phase</div>
+    <div class="info-role">波義耳定律驅動的壓差流入</div>
+    <div class="info-block">
+      <h3>完整邏輯鏈</h3>
+      <div class="info-steps">
+        <div class="info-step"><span class="info-step-num in">1</span><span>呼吸肌主動收縮（主角：橫膈膜下壓；副角：肋間外肌外擴）</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num in">2</span><span>胸腔體積增大，上下徑擴張 1.5–3 公分，左右徑同步外擴</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num in">3</span><span>胸腔內壓低於大氣壓（約 −2 至 −3 mmHg）——壓差形成</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num in">4</span><span>空氣順壓差自動流入氣管→支氣管→細支氣管→肺泡</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num in">5</span><span>肺被動擴張充氣。腹腔壓力升高，腹壁外推，骨盆底微降</span></div>
+      </div>
+      <div class="info-note">肺本身沒有肌肉。我們感覺到的「主動吸氣」，其實是呼吸肌在工作，不是肺在用力。肺像氣球，靠外部空間變大被撐開。</div>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>為什麼要感受腹部外推，而不是胸部上提</strong>
+        腹部外推 = 橫膈膜確實在下降，胸腔上下徑在增加。若學員只感受到胸部上提而腹部沒有動，表示橫膈膜被代償，真正的深吸氣沒有發生。
+      </div>
+      <div class="yoga-card">
+        <strong>下肺葉通氣</strong>
+        平靜淺呼吸時下肺葉幾乎不通氣，只有橫膈膜充分下壓才能啟動。下肺葉微血管密度最高——打開這裡才是「深呼吸」的真正意義。
+      </div>
+    </div>
+  </div>
+
+  <!-- EXHALE mechanism -->
+  <div class="info-section" id="info-exhale">
+    <div class="info-eyebrow">吐氣機制</div>
+    <div class="info-name">吐氣</div>
+    <div class="info-en">Exhalation — Passive &amp; Active</div>
+    <div class="info-role">彈性回彈（平靜）vs 腹肌主動推壓（強力）</div>
+    <div class="info-block">
+      <h3>平靜吐氣（被動）</h3>
+      <div class="info-steps">
+        <div class="info-step"><span class="info-step-num ex">1</span><span>呼吸肌放鬆，肌肉停止作功</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num ex">2</span><span>肺組織天生彈性帶動回彈，胸腔體積縮小</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num ex">3</span><span>胸腔內壓高於大氣壓，氣體自然流出</span></div>
+      </div>
+      <div class="info-note">平靜吐氣是完全被動的——肌肉甚麼都不用做，肺靠自身彈性完成。這也是為什麼吐氣比吸氣更容易放鬆：它本來就不用力。</div>
+    </div>
+    <div class="info-block">
+      <h3>主動吐氣（強力吐氣 / Kapalabhati）</h3>
+      <div class="info-steps">
+        <div class="info-step"><span class="info-step-num ex">1</span><span>腹肌主動收縮，腹腔壓力急速升高</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num ex">2</span><span>橫膈膜被腹腔壓力向上推，急速上升回圓頂</span></div>
+        <div class="info-step-arr">↓</div>
+        <div class="info-step"><span class="info-step-num ex">3</span><span>胸腔體積迅速縮小，氣體快速排出</span></div>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>Kapalabhati — 頭顱清明呼吸</strong>
+        本質：腹肌高速節律收縮主動推氣，吸氣被動反彈。訓練的不是「呼吸」本身，而是腹肌對呼吸節律的主動控制能力——這是 Pranayama 進階練習的基礎能力之一。
+      </div>
+      <div class="yoga-card">
+        <strong>延長吐氣的效果</strong>
+        吐氣時間 &gt; 吸氣時間（如 4 秒吸 / 8 秒吐），可更充分刺激迷走神經，降低心率和皮質醇。這是所有放鬆型呼吸法的共同機制。
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAPHRAGM -->
+  <div class="info-section" id="info-diaphragm">
+    <div class="info-eyebrow">主要呼吸肌</div>
+    <div class="info-name">橫膈膜</div>
+    <div class="info-en">Diaphragm</div>
+    <div class="info-role">主引擎｜70–80% 吸氣工作量</div>
+    <div class="info-block">
+      <h3>結構</h3>
+      <p>圓頂形骨骼肌，分隔胸腔與腹腔。附著於下六根肋骨、胸骨劍突、腰椎（L1–L3）。中央腱（central tendon）是肌腱核心，不收縮。有三個主要開口：食道裂孔（T10）、主動脈裂孔（T12）、腔靜脈裂孔（T8）。</p>
+      <div class="tag-row">
+        <span class="tag">附著：下 6 肋＋腰椎</span>
+        <span class="tag">圓頂形骨骼肌</span>
+        <span class="tag">三個主要開口</span>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>功能</h3>
+      <p>吸氣時收縮下沉（圓頂變平），胸腔上下徑增加 1.5–3 公分，形成壓差吸入空氣，貢獻 70–80% 的吸氣工作量。呼氣時完全放鬆上升回圓頂，肺靠彈性回彈排氣。長期壓力或久坐讓橫膈膜習慣停在高位，頸部斜角肌被迫代償，導致慢性頸肩緊繃。</p>
+      <div class="tag-row">
+        <span class="tag">吸氣主力 70–80%</span>
+        <span class="tag">吸氣下沉 呼氣上升</span>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>腹式呼吸 / 橫膈膜呼吸</strong>
+        練習感受吸氣時腹部鼓起（橫膈膜下沉推腹壁），呼氣時腹部內收。深呼吸降低皮質醇的生理機制，正是橫膈膜透過迷走神經刺激副交感系統。
+      </div>
+      <div class="yoga-card">
+        <strong>核心穩定與呼吸</strong>
+        橫膈膜是核心四大肌群之一（橫膈膜＋骨盆底肌＋腹橫肌＋多裂肌），四者協調運作調節腹內壓（IAP）——手平衡、倒立穩定感的核心關鍵。
+      </div>
+    </div>
+    <div class="sandy-quote">壓力大的時候呼吸會變淺——不是你的心理問題，是橫膈膜真的在那個當下沒有往下走。瑜伽說的「深呼吸」，身體層面是在訓練這塊肌肉記得它的工作。</div>
+  </div>
+
+  <!-- RIBS -->
+  <div class="info-section" id="info-ribs">
+    <div class="info-eyebrow">骨性胸廓</div>
+    <div class="info-name">肋骨 × 胸廓</div>
+    <div class="info-en">Ribs &amp; External Intercostals</div>
+    <div class="info-role">副引擎｜肋骨上提外擴</div>
+    <div class="info-block">
+      <h3>結構</h3>
+      <p>12 對肋骨。1–7 對為真肋（直接連胸骨）；8–10 對為假肋（軟骨連接）；11–12 對為浮肋（無前端連接）。肋間外肌負責吸氣時肋骨上提外擴，肋間內肌輔助呼氣。</p>
+      <div class="tag-row"><span class="tag">真肋 1–7</span><span class="tag">假肋 8–10</span><span class="tag">浮肋 11–12</span></div>
+    </div>
+    <div class="info-block">
+      <h3>功能</h3>
+      <p>吸氣時兩種運動同時發生：上段肋骨執行「幫浦柄運動（Pump-handle motion）」，胸骨向前上提，增加胸廓前後徑；下段肋骨執行「水桶柄運動（Bucket-handle motion）」，肋骨兩側外擴，增加胸廓左右橫徑。兩個方向配合橫膈膜進一步增大胸腔容積。長期圓肩駝背限制肋骨關節活動，直接壓縮肺活量。</p>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>360° 胸廓呼吸</strong>
+        練習感受吸氣時肋骨向四面擴張（前、後、左、右），而非只是肚子鼓起，充分利用中下肺葉容量。
+      </div>
+      <div class="yoga-card">
+        <strong>側伸展（三角式、門閂式）</strong>
+        拉伸肋間肌，增加單側肋骨的活動度，對久坐族特別有效。
+      </div>
+      <div class="yoga-card">
+        <strong>英雄 1 / 後彎系列</strong>
+        胸骨上提、肋骨前側打開，對抗長時間低頭滑手機造成的胸廓前側緊縮。
+      </div>
+    </div>
+    <div class="sandy-quote">你的肋骨每天呼吸兩萬次，但大部分人用到的只有三分之一的空間。瑜伽開胸不是在練柔軟度，是在還給肋骨它本來應該有的活動範圍。</div>
+  </div>
+
+  <!-- ABS -->
+  <div class="info-section" id="info-abs">
+    <div class="info-eyebrow">呼氣控制肌</div>
+    <div class="info-name">腹肌</div>
+    <div class="info-en">Abdominals</div>
+    <div class="info-role">煞車 ＋ 主動呼氣</div>
+    <div class="info-block">
+      <h3>吸氣時的角色：煞車</h3>
+      <p>吸氣時適度放鬆讓腹壁向外推出（「肚子鼓起」的原因），同時控制橫膈膜下沉速度如煞車，讓吸氣平穩有力不暴衝。若腹肌習慣繃緊（縮小腹習慣），橫膈膜下降受限，呼吸深度可減少 20–30%，並迫使頸部輔助肌代償。</p>
+    </div>
+    <div class="info-block">
+      <h3>呼氣時的角色：主動驅動</h3>
+      <p>呼氣時主動收縮推腹腔向上，協助橫膈膜加速上升排氣。說話、唱歌、咳嗽、Kapalabhati——所有需要強力或快速呼氣的動作，都靠腹肌主動驅動。</p>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>「縮腹」習慣的誤區</strong>
+        學員因為美觀習慣縮腹，但吸氣腹部自然外擴是正確機制，是橫膈膜的「讓位空間」，不是「放棄腹力」。需要引導學員在吸氣時允許腹壁外推。
+      </div>
+      <div class="yoga-card">
+        <strong>Kapalabhati 的本質</strong>
+        快速排氣正是腹肌的高速節律收縮，吸氣被動反彈。訓練的就是腹肌對呼吸的主動控制能力。
+      </div>
+    </div>
+    <div class="sandy-quote">很多學員在做腹式呼吸時，吸氣肚子反而縮進去——因為他們在用力。腹式呼吸是放鬆讓橫膈膜工作，不是用力把肚子推出去。</div>
+  </div>
+
+  <!-- PELVIC -->
+  <div class="info-section" id="info-pelvic">
+    <div class="info-eyebrow">核心底板</div>
+    <div class="info-name">骨盆底肌</div>
+    <div class="info-en">Pelvic Floor</div>
+    <div class="info-role">底板｜調節腹內壓 IAP</div>
+    <div class="info-block">
+      <h3>與呼吸的協調</h3>
+      <p>骨盆底肌是核心的底端封板，與橫膈膜、腹橫肌、多裂肌共組「核心四肌群」。吸氣時腹內壓升高，骨盆底肌輕微延伸下降，承接壓力而不塌陷——健康的骨盆底有彈性，而非持續收緊。呼氣時隨腹肌收縮同步上提，完成完整的腔內壓力循環，保護骨盆器官。</p>
+      <div class="tag-row">
+        <span class="tag">腹腔液壓系統</span>
+        <span class="tag">核心四肌群</span>
+        <span class="tag">呼吸協調</span>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>Mula Bandha 根鎖</strong>
+        本質是訓練骨盆底有意識感知與彈性回應，而非持續夾緊收縮。在倒立和手平衡體式中，骨盆底是核心系統的底端支點。
+      </div>
+      <div class="yoga-card">
+        <strong>Uddiyana Bandha 臍鎖</strong>
+        全呼氣後腹肌上提，橫膈膜被動上拱，骨盆底一同上提，按摩腹腔器官，刺激迷走神經。
+      </div>
+      <div class="yoga-card">
+        <strong>核心重建的起點</strong>
+        從呼吸重新連結橫膈膜—腹橫肌—骨盆底的協調，是產後或久坐族核心訓練的真正起點——比做捲腹重要得多。
+      </div>
+    </div>
+    <div class="sandy-quote">很多人練瑜伽一直在找「核心在哪」，但核心不是六塊肌，是橫膈膜、腹橫肌、骨盆底肌、多裂肌四個一起工作的系統。而這四個，全部跟你的呼吸有關。</div>
+  </div>
+
+  <!-- WHY techniques work -->
+  <div class="info-section" id="info-why">
+    <div class="info-eyebrow">機制解說</div>
+    <div class="info-name">為什麼呼吸法有效</div>
+    <div class="info-en">Why Breathing Techniques Work</div>
+    <div class="info-block">
+      <h3>三重效益同時發生</h3>
+      <p>現代人因慢性壓力、久坐和體姿問題，習慣「胸式淺呼吸」——橫膈膜幾乎閒置，只靠肋間肌和斜角肌，效率低且輔助肌易疲勞。Pranayama 各種技法的科學效益來自三個同時發生的機制：</p>
+    </div>
+    <div class="info-block">
+      <h3>第一：通氣效率</h3>
+      <p>重啟橫膈膜為主的四肌協同，下肺葉（微血管密度最高）重新參與通氣，每次呼吸的氧氣交換量顯著提升。</p>
+    </div>
+    <div class="info-block">
+      <h3>第二：自律神經</h3>
+      <p>延長吐氣刺激迷走神經，啟動副交感系統，降低皮質醇和心率。這是「深呼吸讓你放鬆」的真正生理機制——不是信仰，是神經科學。</p>
+    </div>
+    <div class="info-block">
+      <h3>第三：核心壓力管理</h3>
+      <p>訓練腹內壓（Intra-Abdominal Pressure, IAP）的協調管理，同時改善脊椎穩定度。呼吸練習是核心訓練，不只是放鬆練習。</p>
+    </div>
+    <div class="info-note">肺沒有肌肉。所有呼吸法的本質，都是在訓練驅動肺的那四個系統，同時透過自律神經回路影響全身。教師需要能精確告訴學員這件事——「深呼吸有用」不是信仰，是生理機制。</div>
+  </div>
+
+  <!-- POSTURE -->
+  <div class="info-section" id="info-posture">
+    <div class="info-eyebrow">結構影響</div>
+    <div class="info-name">為什麼姿勢影響呼吸</div>
+    <div class="info-en">Posture &amp; Breathing Capacity</div>
+    <div class="info-block">
+      <h3>駝背對呼吸的影響</h3>
+      <p>胸椎後凸（駝背）使下肋骨向下旋轉，肋骨夾角縮小，橫膈膜被迫維持在較高靜止位置，下降空間大幅受限。研究顯示在前彎 30° 的姿勢下肺活量減少超過 30%。橫膈膜代償不足後，頸部斜角肌和胸鎖乳突肌接管，長期導致頸肩慢性緊繃和頭痛。</p>
+    </div>
+    <div class="info-block">
+      <h3>良好體姿的效果</h3>
+      <p>脊椎自然曲線使肋骨維持最佳角度，橫膈膜在靜止位置較低，擁有完整的 1.5–3 公分上下活動空間，有氧效率顯著提升。Tadasana（山式）強調軸向延伸，本身就是一次靜默的呼吸訓練。</p>
+    </div>
+    <div class="info-block">
+      <h3>瑜伽連結</h3>
+      <div class="yoga-card">
+        <strong>體式對齊的生理依據</strong>
+        山式的軸向延伸、Warrior I 的胸腔打開——這些不只是美感要求，是在為橫膈膜創造完整的活動空間。這是為什麼瑜伽強調體式對齊的真正生理原因。
+      </div>
+      <div class="yoga-card">
+        <strong>長期效果</strong>
+        規律練習後彎和胸廓打開的體式，可以恢復肋骨關節活動範圍，讓橫膈膜重新回到正確的靜止位置，改善平靜呼吸的深度。
+      </div>
+    </div>
+    <div class="sandy-quote">站直本身就是一次靜默的呼吸訓練。你的脊椎在決定你的橫膈膜有多少空間可以工作，每一次呼吸，都是上一秒你怎麼站、怎麼坐的結果。</div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="info-section" id="info-closing" style="padding-top:8px;">
+    <div style="background:#1a1a2e;color:white;padding:28px;border-radius:8px;line-height:1.95;font-size:15px;">
+      <div style="font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.4);margin-bottom:14px;">結語</div>
+      我們在墊子上訓練的，<br>
+      不只是身體的形狀，<br>
+      是這個系統重新記得怎麼工作。<br><br>
+      <span style="font-size:13px;color:rgba(255,255,255,.6);">肺是被動的——<br>每一次深呼吸，都是四個系統一起說：<br>我記得了。</span>
+    </div>
+  </div>
+
+</div><!-- end info-panel -->
+</div><!-- end main -->
+
 <script>
 let isBreathing = false;
-let breathAnim = null;
-let breathPhase = 'idle';
-let progress = 0;
+let breathMode = 'idle';
+let breathPhaseLoop = 'inhale';
 let phaseTime = 0;
-const INHALE = 4000;
-const HOLD = 0;
-const EXHALE = 4000;
-const PAUSE = 500;
+const INHALE = 4000, EXHALE = 4000, PAUSE = 500, TRANS = 800;
 let lastTime = null;
+let curEp = 0, transFrom = 0, transTo = 0, transStart = null;
 
-function selectPart(id) {
-  // hide all sections
-  document.querySelectorAll('.info-section').forEach(s => s.classList.remove('visible'));
-  document.getElementById('placeholder').style.display = 'none';
+function applyEp(ep) {
+  curEp = ep;
+  const e = ep < 0.5 ? 2*ep*ep : -1+(4-2*ep)*ep;
+  const els = {
+    'part-lung-l': `scale(${1+e*0.10})`,
+    'part-lung-r': `scale(${1+e*0.10})`,
+    'part-diaphragm': `translateY(${e*16}px)`,
+    'part-ribs': `scaleX(${1+e*0.05})`,
+    'part-abs': `translateY(${e*9}px)`,
+    'part-pelvic': `translateY(${e*5}px)`
+  };
+  Object.entries(els).forEach(([id, t]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.transform = t;
+  });
+  const fill = document.getElementById('breathFill');
+  if (fill) { fill.style.width = (ep*100)+'%'; fill.style.background = ep>0.4?'var(--breath-in)':'var(--breath-out)'; }
+}
 
-  // show selected
-  const section = document.getElementById('info-' + id);
-  if (section) section.classList.add('visible');
+function setArrows(isIn) {
+  const cfg = isIn
+    ? { d:[160,302,160,318], ll:[80,194,62,194], lr:[240,194,258,194], a:[160,374,160,390], p:[160,424,160,438] }
+    : { d:[160,318,160,302], ll:[62,194,80,194], lr:[258,194,240,194], a:[160,390,160,374], p:[160,438,160,424] };
+  Object.entries(cfg).forEach(([key,v]) => {
+    const el = document.getElementById('arr-'+key);
+    if (el) { el.setAttribute('x1',v[0]);el.setAttribute('y1',v[1]);el.setAttribute('x2',v[2]);el.setAttribute('y2',v[3]); }
+  });
+}
 
-  // update SVG highlights
-  document.querySelectorAll('.part').forEach(p => p.classList.remove('active'));
+function resetBtnStates() {
+  ['btn-in','btn-ex','btn-loop'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.className = 'phase-btn'; el.textContent = id==='btn-in'?'⬇ 吸氣':id==='btn-ex'?'⬆ 吐氣':'↺ 連續'; }
+  });
+}
 
-  if (id === 'closing') {
-    // no SVG highlight for closing
-  } else if (id === 'lung') {
-    document.getElementById('part-lung-l').classList.add('active');
-    document.getElementById('part-lung-r').classList.add('active');
-  } else if (id === 'trachea') {
-    document.getElementById('part-trachea').classList.add('active');
-  } else if (id === 'diaphragm') {
-    document.getElementById('part-diaphragm').classList.add('active');
-  } else if (id === 'ribs') {
-    document.getElementById('part-ribs').classList.add('active');
-  } else if (id === 'abdomen') {
-    document.getElementById('part-abdomen').classList.add('active');
-  }
+function breathPhaseBtn(phase) {
+  isBreathing = false;
+  breathMode = 'transitioning';
+  transFrom = curEp; transTo = phase==='inhale'?1:0; transStart = null;
+  resetBtnStates();
+  const isIn = phase==='inhale';
+  const btn = document.getElementById(isIn?'btn-in':'btn-ex');
+  if (btn) btn.className = 'phase-btn '+(isIn?'on-in':'on-ex');
+  document.getElementById('breathLabel').textContent = isIn?'吸氣':'吐氣';
+  document.getElementById('breathPhase').textContent = isIn?'吸氣狀態':'吐氣狀態';
+  document.getElementById('breath-arrows').style.opacity = '1';
+  setArrows(isIn);
+  showInfo(isIn?'inhale':'exhale');
+  requestAnimationFrame(animateTrans);
+}
 
-  // update legend
-  document.querySelectorAll('.legend-item').forEach(l => l.classList.remove('active'));
-  const legMap = { lung: 'leg-lung', trachea: 'leg-trachea', diaphragm: 'leg-diaphragm', ribs: 'leg-ribs', abdomen: 'leg-abdomen', closing: 'leg-closing' };
-  if (legMap[id]) document.getElementById(legMap[id]).classList.add('active');
-
-  // 手機版：點擊後自動滾到說明區
-  if (window.innerWidth <= 700) {
-    const panel = document.getElementById('infoPanel');
-    if (panel) panel.scrollIntoView({ behavior: 'smooth' });
-  }
+function animateTrans(ts) {
+  if (breathMode !== 'transitioning') return;
+  if (!transStart) transStart = ts;
+  const p = Math.min((ts-transStart)/TRANS, 1);
+  const pe = p<0.5?2*p*p:-1+(4-2*p)*p;
+  applyEp(transFrom+(transTo-transFrom)*pe);
+  if (p<1) { requestAnimationFrame(animateTrans); }
+  else { applyEp(transTo); breathMode = 'hold'; }
 }
 
 function toggleBreath() {
+  const btn = document.getElementById('btn-loop');
   isBreathing = !isBreathing;
-  const btn = document.getElementById('toggleBtn');
-  const svg = document.getElementById('bodySvg');
-
   if (isBreathing) {
-    btn.textContent = '⏸ 暫停';
-    svg.classList.add('breathing');
-    lastTime = null;
-    breathPhase = 'inhale';
-    phaseTime = 0;
-    requestAnimationFrame(animateBreath);
+    breathMode = 'loop'; breathPhaseLoop = 'inhale'; phaseTime = 0; lastTime = null;
+    resetBtnStates();
+    btn.className = 'phase-btn on-loop'; btn.textContent = '⏸ 暫停';
+    document.getElementById('breath-arrows').style.opacity = '1';
+    requestAnimationFrame(animateLoop);
   } else {
-    btn.textContent = '▶ 開始呼吸';
-    svg.classList.remove('breathing');
-    document.getElementById('breathFill').style.width = '0%';
-    document.getElementById('breathLabel').textContent = '暫停';
+    breathMode = 'idle';
+    btn.className = 'phase-btn'; btn.textContent = '↺ 連續';
+    applyEp(0);
+    document.getElementById('breath-arrows').style.opacity = '0';
+    document.getElementById('breathLabel').textContent = '—';
     document.getElementById('breathPhase').textContent = '';
   }
 }
 
-function animateBreath(timestamp) {
+function animateLoop(ts) {
   if (!isBreathing) return;
-
-  if (!lastTime) lastTime = timestamp;
-  const delta = timestamp - lastTime;
-  lastTime = timestamp;
-  phaseTime += delta;
-
-  const fill = document.getElementById('breathFill');
-  const label = document.getElementById('breathLabel');
-  const phase = document.getElementById('breathPhase');
-
-  if (breathPhase === 'inhale') {
-    const p = Math.min(phaseTime / INHALE, 1);
-    fill.style.width = (p * 100) + '%';
-    fill.style.background = 'var(--breath-in)';
-    label.textContent = '吸氣';
-    phase.textContent = '吸…';
-    if (phaseTime >= INHALE) { breathPhase = 'exhale'; phaseTime = 0; }
-  } else if (breathPhase === 'exhale') {
-    const p = Math.min(phaseTime / EXHALE, 1);
-    fill.style.width = ((1 - p) * 100) + '%';
-    fill.style.background = 'var(--breath-out)';
-    label.textContent = '吐氣';
-    phase.textContent = '吐…';
-    if (phaseTime >= EXHALE) { breathPhase = 'pause'; phaseTime = 0; }
+  if (!lastTime) lastTime = ts;
+  const dt = ts-lastTime; lastTime = ts; phaseTime += dt;
+  const lbl = document.getElementById('breathLabel'), ph = document.getElementById('breathPhase');
+  let ep = 0;
+  if (breathPhaseLoop==='inhale') {
+    ep = Math.min(phaseTime/INHALE,1);
+    lbl.textContent='吸氣'; ph.textContent='吸…'; setArrows(true);
+    if (phaseTime>=INHALE){breathPhaseLoop='exhale';phaseTime=0;}
+  } else if (breathPhaseLoop==='exhale') {
+    ep = 1-Math.min(phaseTime/EXHALE,1);
+    lbl.textContent='吐氣'; ph.textContent='吐…'; setArrows(false);
+    if (phaseTime>=EXHALE){breathPhaseLoop='pause';phaseTime=0;}
   } else {
-    fill.style.width = '0%';
-    label.textContent = '—';
-    phase.textContent = '';
-    if (phaseTime >= PAUSE) { breathPhase = 'inhale'; phaseTime = 0; }
+    ep=0; lbl.textContent='—'; ph.textContent='';
+    if (phaseTime>=PAUSE){breathPhaseLoop='inhale';phaseTime=0;}
   }
+  applyEp(ep);
+  requestAnimationFrame(animateLoop);
+}
 
-  requestAnimationFrame(animateBreath);
+function showInfo(id) {
+  document.querySelectorAll('.info-section').forEach(s=>s.classList.remove('visible'));
+  document.getElementById('placeholder').style.display='none';
+  const s = document.getElementById('info-'+id);
+  if (s) s.classList.add('visible');
+}
+
+function selectPart(id) {
+  showInfo(id);
+  document.querySelectorAll('.part').forEach(p=>p.classList.remove('active'));
+  const svgMap = {
+    trachea:['part-trachea'],
+    lung:['part-lung-l','part-lung-r'],
+    diaphragm:['part-diaphragm'],
+    ribs:['part-ribs'],
+    abs:['part-abs'],
+    pelvic:['part-pelvic'],
+    inhale:['part-lung-l','part-lung-r','part-diaphragm','part-ribs','part-abs','part-pelvic'],
+    exhale:['part-lung-l','part-lung-r','part-diaphragm','part-ribs','part-abs','part-pelvic'],
+  };
+  (svgMap[id]||[]).forEach(t=>{const el=document.getElementById(t);if(el)el.classList.add('active');});
+  document.querySelectorAll('.legend-item').forEach(l=>l.classList.remove('active'));
+  const legMap={
+    lung:'leg-lung',trachea:'leg-trachea',diaphragm:'leg-diaphragm',ribs:'leg-ribs',
+    abs:'leg-abs',pelvic:'leg-pelvic',
+    inhale:'leg-inhale',exhale:'leg-exhale',why:'leg-why',posture:'leg-posture',closing:'leg-closing'
+  };
+  if (legMap[id]) document.getElementById(legMap[id])?.classList.add('active');
+  if (window.innerWidth<=700) document.getElementById('infoPanel')?.scrollIntoView({behavior:'smooth'});
 }
 </script>
 
-<footer style="background:#1a1a2e;color:rgba(255,255,255,0.7);padding:32px 40px;font-size:12px;line-height:2;font-family:'Noto Sans TC',sans-serif;">
+<footer style="background:#1a1a2e;color:rgba(255,255,255,.7);padding:28px 40px;font-size:12px;line-height:2;font-family:'Noto Sans TC',sans-serif;">
   <div style="max-width:800px;margin:0 auto;">
-    <div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:16px;">參考資料 References</div>
+    <div style="font-size:11px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:14px;">參考資料 References</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;">
       <div>Moore, K.L., Dalley, A.F., &amp; Agur, A.M.R. (2014). <em>Clinically Oriented Anatomy</em> (7th ed.). Lippincott Williams &amp; Wilkins.</div>
       <div>Netter, F.H. (2019). <em>Atlas of Human Anatomy</em> (7th ed.). Elsevier.</div>
@@ -944,7 +829,7 @@ function animateBreath(timestamp) {
       <div>Ray Long (2009). <em>The Key Muscles of Yoga</em>. Bandha Yoga.</div>
       <div>B.K.S. Iyengar (1966). <em>Light on Yoga</em>. Schocken Books.</div>
     </div>
-    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:11px;">本網頁內容依據上述解剖學教科書與瑜伽解剖學文獻整理製作，僅供學術學習參考。</div>
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);font-size:11px;">本網頁內容依據上述解剖學教科書與瑜伽解剖學文獻整理製作，僅供學術學習參考。</div>
   </div>
 </footer>
 </body>

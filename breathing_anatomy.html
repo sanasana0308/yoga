@@ -1,0 +1,423 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500&display=swap');
+.baw *{box-sizing:border-box;margin:0;padding:0;}
+.baw{background:#f7f3ee;color:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid rgba(26,26,46,0.1);font-family:'Noto Sans TC',sans-serif;}
+.baw-hd{background:#1a1a2e;color:white;padding:13px 18px;display:flex;align-items:center;gap:14px;}
+.baw-ey{font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.38);text-transform:uppercase;margin-bottom:3px;}
+.baw-title{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:900;letter-spacing:.04em;}
+.baw-bb{background:#1a1a2e;padding:7px 18px 10px;display:flex;align-items:center;gap:12px;}
+.baw-bbl{font-family:'Noto Serif TC',serif;font-weight:600;font-size:14px;color:white;min-width:36px;}
+.baw-bbt{flex:1;height:3px;background:rgba(255,255,255,.14);border-radius:2px;overflow:hidden;}
+.baw-bbf{height:100%;border-radius:2px;width:0%;transition:background .5s;}
+.baw-bbp{font-size:11px;color:rgba(255,255,255,.4);min-width:40px;text-align:right;}
+.baw-sa{padding:20px 16px 12px;display:flex;justify-content:center;background:#f7f3ee;}
+.baw-sa svg{max-width:290px;width:100%;}
+/* 三個呼吸按鈕 */
+.baw-bc-row{display:flex;gap:8px;padding:0 14px 12px;}
+.baw-bc{flex:1;padding:10px 6px;font-size:12px;font-weight:500;text-align:center;border-radius:8px;cursor:pointer;letter-spacing:.04em;font-family:'Noto Sans TC',sans-serif;border:none;transition:all .18s;}
+.baw-bc-in{background:#d0eaf4;color:#1a5a72;}
+.baw-bc-in.on{background:#4a9ab8;color:white;}
+.baw-bc-ex{background:#f0e2cc;color:#7a4a18;}
+.baw-bc-ex.on{background:#c87941;color:white;}
+.baw-bc-loop{background:rgba(26,26,46,.08);color:#1a1a2e;}
+.baw-bc-loop.on{background:#1a1a2e;color:white;}
+/* 部位按鈕 */
+.baw-ps{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px;}
+.baw-pb{flex:1;min-width:calc(33.33% - 4px);padding:7px 4px;font-size:11px;text-align:center;border:1px solid rgba(26,26,46,.12);border-radius:8px;cursor:pointer;color:#6a6a7e;background:transparent;transition:all .15s;letter-spacing:.02em;font-family:'Noto Sans TC',sans-serif;}
+.baw-pb.on{background:#1a1a2e;color:white;border-color:#1a1a2e;}
+.baw-pb:hover:not(.on){background:rgba(26,26,46,.05);}
+/* 資訊卡 */
+.baw-card{background:white;margin:0 12px 14px;border-radius:10px;padding:18px 16px;border:1px solid rgba(26,26,46,.06);}
+.baw-cey{font-size:10px;letter-spacing:.14em;color:#d46b4b;text-transform:uppercase;margin-bottom:6px;}
+.baw-cn{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:900;line-height:1.2;margin-bottom:2px;}
+.baw-cen{font-size:12px;color:#8a8a99;letter-spacing:.05em;margin-bottom:4px;}
+.baw-crole{font-size:12px;color:#d46b4b;font-weight:500;letter-spacing:.03em;margin-bottom:14px;}
+.baw-ch3{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8a8a99;margin:14px 0 7px;padding-bottom:5px;border-bottom:1px solid rgba(26,26,46,.07);}
+.baw-cp{font-size:13px;line-height:1.85;color:#1a1a2e;}
+.baw-yoga{background:#f7f3ee;border-left:3px solid #d46b4b;padding:12px 14px;border-radius:0 8px 8px 0;margin-top:12px;}
+.baw-yoga strong{display:block;font-size:10px;letter-spacing:.08em;color:#d46b4b;margin-bottom:4px;}
+.baw-yoga p{font-size:13px;line-height:1.75;color:#1a1a2e;}
+.baw-note{background:#1a1a2e;color:rgba(255,255,255,.88);padding:13px 15px;border-radius:8px;margin-top:12px;font-size:12.5px;line-height:1.78;}
+.baw-steps{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.baw-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.75;}
+.baw-step-n{flex-shrink:0;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin-top:2px;}
+.baw-step-n.in{background:#4a9ab8;}
+.baw-step-n.ex{background:#c87941;}
+.baw-step-arr{font-size:11px;color:#8a8a99;padding:4px 0 2px;letter-spacing:.03em;}
+.baw-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;text-align:center;color:#8a8a99;}
+.baw-ph-i{font-size:28px;margin-bottom:8px;opacity:.4;}
+.baw-ph p{font-size:13px;line-height:1.65;}
+.baw-part{cursor:pointer;transition:opacity .2s;}
+.baw-part:hover{opacity:.8;}
+.baw-part.active{filter:drop-shadow(0 0 9px rgba(212,107,75,.6));}
+</style>
+
+<div class="baw" id="baw">
+
+<div class="baw-hd">
+  <div>
+    <div class="baw-ey">解剖學互動圖</div>
+    <div class="baw-title">四大呼吸驅動系統</div>
+  </div>
+</div>
+
+<div class="baw-bb">
+  <span class="baw-bbl" id="baw-lbl">—</span>
+  <div class="baw-bbt"><div class="baw-bbf" id="baw-fill"></div></div>
+  <span class="baw-bbp" id="baw-ph-txt">選擇模式</span>
+</div>
+
+<div class="baw-sa">
+<svg viewBox="0 0 320 460" id="baw-svg">
+<defs>
+  <linearGradient id="bgl-ll" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#c4dce8"/><stop offset="100%" stop-color="#88b4cc"/>
+  </linearGradient>
+  <linearGradient id="bgl-lr" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#b8d4e2"/><stop offset="100%" stop-color="#7eacc4"/>
+  </linearGradient>
+  <linearGradient id="bgl-d" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ecac82"/><stop offset="100%" stop-color="#c87848"/>
+  </linearGradient>
+  <linearGradient id="bgl-a" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#8aaa86"/><stop offset="100%" stop-color="#587856"/>
+  </linearGradient>
+  <linearGradient id="bgl-p" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#aa80ba"/><stop offset="100%" stop-color="#7e5888"/>
+  </linearGradient>
+  <marker id="baw-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+  </marker>
+</defs>
+<path d="M102 18 Q84 26 74 62 Q62 108 60 172 Q58 238 66 284 Q74 320 82 360 Q90 396 104 420 Q122 440 160 442 Q198 440 216 420 Q230 396 238 360 Q246 320 254 284 Q262 238 260 172 Q258 108 246 62 Q236 26 218 18 Z"
+  fill="#f0e0cc" stroke="#c8a880" stroke-width="0.8" opacity="0.32"/>
+<g id="baw-trach">
+  <rect x="148" y="18" width="24" height="62" rx="12" fill="#c0b0cc" opacity="0.82"/>
+  <line x1="148" y1="30" x2="172" y2="30" stroke="white" stroke-width="1.2" opacity="0.55"/>
+  <line x1="148" y1="39" x2="172" y2="39" stroke="white" stroke-width="1.2" opacity="0.50"/>
+  <line x1="148" y1="48" x2="172" y2="48" stroke="white" stroke-width="1.2" opacity="0.46"/>
+  <line x1="148" y1="57" x2="172" y2="57" stroke="white" stroke-width="1.2" opacity="0.42"/>
+  <line x1="148" y1="66" x2="172" y2="66" stroke="white" stroke-width="1.2" opacity="0.38"/>
+  <path d="M148 78 Q128 90 116 106" fill="none" stroke="#c0b0cc" stroke-width="9" stroke-linecap="round"/>
+  <path d="M172 78 Q192 90 204 106" fill="none" stroke="#c0b0cc" stroke-width="9" stroke-linecap="round"/>
+</g>
+<g class="baw-part" id="baw-ribs" onclick="bawSelect('ribs')" style="transform-origin:160px 155px">
+  <rect x="152" y="94" width="16" height="130" rx="4" fill="#c8b898" opacity="0.72"/>
+  <path d="M152 104 Q100 99 78 119" fill="none" stroke="#c8b898" stroke-width="7" stroke-linecap="round" opacity="0.78"/>
+  <path d="M152 119 Q96 112 72 135" fill="none" stroke="#c8b898" stroke-width="6.5" stroke-linecap="round" opacity="0.74"/>
+  <path d="M152 134 Q94 129 68 153" fill="none" stroke="#c8b898" stroke-width="6.5" stroke-linecap="round" opacity="0.70"/>
+  <path d="M152 149 Q90 146 66 170" fill="none" stroke="#c8b898" stroke-width="6" stroke-linecap="round" opacity="0.65"/>
+  <path d="M152 164 Q88 163 67 186" fill="none" stroke="#c8b898" stroke-width="6" stroke-linecap="round" opacity="0.60"/>
+  <path d="M152 179 Q90 180 72 201" fill="none" stroke="#c8b898" stroke-width="5.5" stroke-linecap="round" opacity="0.54"/>
+  <path d="M168 104 Q220 99 242 119" fill="none" stroke="#c8b898" stroke-width="7" stroke-linecap="round" opacity="0.78"/>
+  <path d="M168 119 Q224 112 248 135" fill="none" stroke="#c8b898" stroke-width="6.5" stroke-linecap="round" opacity="0.74"/>
+  <path d="M168 134 Q226 129 252 153" fill="none" stroke="#c8b898" stroke-width="6.5" stroke-linecap="round" opacity="0.70"/>
+  <path d="M168 149 Q230 146 254 170" fill="none" stroke="#c8b898" stroke-width="6" stroke-linecap="round" opacity="0.65"/>
+  <path d="M168 164 Q232 163 253 186" fill="none" stroke="#c8b898" stroke-width="6" stroke-linecap="round" opacity="0.60"/>
+  <path d="M168 179 Q230 180 248 201" fill="none" stroke="#c8b898" stroke-width="5.5" stroke-linecap="round" opacity="0.54"/>
+</g>
+<g class="baw-part" id="baw-lung-l" onclick="bawSelect('ribs')" style="transform-origin:112px 196px">
+  <path d="M116 106 Q78 126 70 170 Q64 214 76 246 Q90 276 114 280 Q134 276 148 256 L148 106 Z"
+    fill="url(#bgl-ll)" opacity="0.9"/>
+  <path d="M104 148 Q120 174 138 194" fill="none" stroke="white" stroke-width="1.3" opacity="0.40" stroke-dasharray="4,3"/>
+  <path d="M90 196 Q114 212 138 222" fill="none" stroke="white" stroke-width="1.2" opacity="0.32" stroke-dasharray="4,3"/>
+</g>
+<g class="baw-part" id="baw-lung-r" onclick="bawSelect('ribs')" style="transform-origin:208px 196px">
+  <path d="M204 106 Q242 126 250 170 Q256 214 244 246 Q230 276 206 280 Q186 276 172 256 L172 106 Z"
+    fill="url(#bgl-lr)" opacity="0.9"/>
+  <path d="M214 142 Q198 168 180 188" fill="none" stroke="white" stroke-width="1.3" opacity="0.40" stroke-dasharray="4,3"/>
+  <path d="M226 187 Q208 204 182 214" fill="none" stroke="white" stroke-width="1.2" opacity="0.32" stroke-dasharray="4,3"/>
+  <path d="M220 162 Q204 180 184 195" fill="none" stroke="white" stroke-width="1.1" opacity="0.26" stroke-dasharray="4,3"/>
+</g>
+<g opacity="0.25">
+  <path d="M148 152 Q148 138 160 138 Q172 138 172 152 Q172 167 160 183 Q148 167 148 152Z" fill="#e88888"/>
+</g>
+<g class="baw-part" id="baw-diaph" onclick="bawSelect('diaphragm')" style="transform-origin:160px 296px">
+  <path d="M66 278 Q103 298 160 296 Q217 298 254 278 Q242 318 200 328 Q160 335 120 328 Q78 318 66 278Z"
+    fill="url(#bgl-d)" stroke="#a05820" stroke-width="0.8"/>
+  <path d="M84 288 Q122 306 160 304" fill="none" stroke="white" stroke-width="0.9" opacity="0.44"/>
+  <path d="M94 296 Q127 312 160 310" fill="none" stroke="white" stroke-width="0.9" opacity="0.34"/>
+  <path d="M236 288 Q198 306 160 304" fill="none" stroke="white" stroke-width="0.9" opacity="0.44"/>
+  <path d="M226 296 Q193 312 160 310" fill="none" stroke="white" stroke-width="0.9" opacity="0.34"/>
+</g>
+<g class="baw-part" id="baw-abs" onclick="bawSelect('abs')" style="transform-origin:160px 370px">
+  <path d="M70 330 Q115 347 160 345 Q205 347 250 330 L246 394 Q202 410 160 408 Q118 410 74 394 Z"
+    fill="url(#bgl-a)" stroke="#3a6838" stroke-width="0.8" opacity="0.84"/>
+  <line x1="160" y1="330" x2="160" y2="394" stroke="white" stroke-width="1" stroke-dasharray="3,2.5" opacity="0.48"/>
+  <path d="M78 352 Q119 359 160 357 Q201 359 242 352" fill="none" stroke="white" stroke-width="0.9" opacity="0.34"/>
+  <path d="M74 374 Q117 381 160 379 Q203 381 246 374" fill="none" stroke="white" stroke-width="0.9" opacity="0.28"/>
+</g>
+<g class="baw-part" id="baw-pelv" onclick="bawSelect('pelvic')" style="transform-origin:160px 416px">
+  <path d="M87 392 Q123 410 160 408 Q197 410 233 392 Q221 428 197 434 Q160 438 123 434 Q99 428 87 392Z"
+    fill="url(#bgl-p)" stroke="#58387a" stroke-width="0.8" opacity="0.85"/>
+  <path d="M102 400 Q131 414 160 412" fill="none" stroke="white" stroke-width="0.9" opacity="0.38"/>
+  <path d="M218 400 Q189 414 160 412" fill="none" stroke="white" stroke-width="0.9" opacity="0.38"/>
+</g>
+<text x="46" y="62" font-size="10" fill="#8a8a99" font-family="Noto Sans TC" text-anchor="middle">氣管</text>
+<line x1="84" y1="60" x2="148" y2="52" stroke="#8a8a99" stroke-width="0.7" opacity="0.45"/>
+<text x="44" y="196" font-size="10" fill="#8a8a99" font-family="Noto Sans TC" text-anchor="middle">左肺</text>
+<line x1="63" y1="194" x2="88" y2="196" stroke="#8a8a99" stroke-width="0.7" opacity="0.45"/>
+<text x="276" y="196" font-size="10" fill="#8a8a99" font-family="Noto Sans TC" text-anchor="middle">右肺</text>
+<line x1="257" y1="194" x2="232" y2="196" stroke="#8a8a99" stroke-width="0.7" opacity="0.45"/>
+<text x="286" y="146" font-size="10" fill="#8a8a99" font-family="Noto Sans TC" text-anchor="middle">肋骨</text>
+<line x1="266" y1="144" x2="250" y2="138" stroke="#8a8a99" stroke-width="0.7" opacity="0.45"/>
+<text x="160" y="320" text-anchor="middle" font-size="10" fill="#8a8a99" font-family="Noto Sans TC">橫膈膜</text>
+<text x="160" y="368" text-anchor="middle" font-size="10" fill="#8a8a99" font-family="Noto Sans TC">腹肌</text>
+<text x="160" y="447" text-anchor="middle" font-size="10" fill="#8a8a99" font-family="Noto Sans TC">骨盆底肌</text>
+<g id="baw-arrows" opacity="0">
+  <line id="baw-ad" x1="160" y1="300" x2="160" y2="316" stroke="#e8a87c" stroke-width="2.2" stroke-linecap="round" marker-end="url(#baw-ah)"/>
+  <line id="baw-all" x1="80" y1="192" x2="62" y2="192" stroke="#88b4cc" stroke-width="2" stroke-linecap="round" marker-end="url(#baw-ah)"/>
+  <line id="baw-alr" x1="240" y1="192" x2="258" y2="192" stroke="#88b4cc" stroke-width="2" stroke-linecap="round" marker-end="url(#baw-ah)"/>
+  <line id="baw-aa" x1="160" y1="368" x2="160" y2="383" stroke="#587856" stroke-width="2" stroke-linecap="round" marker-end="url(#baw-ah)"/>
+  <line id="baw-ap" x1="160" y1="420" x2="160" y2="434" stroke="#7e5888" stroke-width="2" stroke-linecap="round" marker-end="url(#baw-ah)"/>
+</g>
+</svg>
+</div>
+
+<!-- 三個呼吸控制按鈕 -->
+<div class="baw-bc-row">
+  <button class="baw-bc baw-bc-in" id="baw-btn-in" onclick="bawPhaseBtn('inhale')">⬇ 吸氣</button>
+  <button class="baw-bc baw-bc-ex" id="baw-btn-ex" onclick="bawPhaseBtn('exhale')">⬆ 吐氣</button>
+  <button class="baw-bc baw-bc-loop" id="baw-btn-loop" onclick="bawLoopBtn()">↺ 連續呼吸</button>
+</div>
+
+<!-- 部位選擇按鈕 -->
+<div class="baw-ps">
+  <button class="baw-pb" id="baw-pb-diaphragm" onclick="bawSelect('diaphragm')">橫膈膜</button>
+  <button class="baw-pb" id="baw-pb-ribs" onclick="bawSelect('ribs')">肋間外肌</button>
+  <button class="baw-pb" id="baw-pb-abs" onclick="bawSelect('abs')">腹肌</button>
+  <button class="baw-pb" id="baw-pb-pelvic" onclick="bawSelect('pelvic')">骨盆底</button>
+  <button class="baw-pb" id="baw-pb-why" onclick="bawSelect('why')">為什麼有用</button>
+  <button class="baw-pb" id="baw-pb-posture" onclick="bawSelect('posture')">姿勢影響</button>
+</div>
+
+<div class="baw-card" id="baw-card">
+  <div class="baw-ph">
+    <div class="baw-ph-i">👆</div>
+    <p>點擊解剖圖或下方按鈕<br>查看各部位分工與瑜伽連結</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+var BAW = {
+  inhale:{
+    ey:'吸氣機制',name:'吸氣',en:'Inhalation — Active Phase',
+    role:'波義耳定律驅動的壓差流入',
+    steps:[
+      {c:'in',t:'呼吸肌收縮（主角：橫膈膜下壓）'},
+      {c:'in',t:'胸腔體積增大，上下徑擴張 1.5–3 公分'},
+      {c:'in',t:'胸腔內壓低於大氣壓（約 −2 至 −3 mmHg）'},
+      {c:'in',t:'空氣順壓差自動流入——肺被動擴張充氣'}
+    ],
+    note:'肺本身沒有肌肉。它像個彈性氣球，靠外部空間變大被撐開。我們感覺到的「主動吸氣」，其實是呼吸肌在工作，不是肺在用力。',
+    yoga:'下肺葉的微血管密度最高，是氣體交換效率最好的區域。平靜淺呼吸時下肺葉幾乎不參與——只有橫膈膜充分下壓才能啟動。這是深呼吸練習的核心價值：不是「放鬆」，是真正打開效率最高的通氣區。',
+    yogaTitle:'瑜伽重點：為什麼要深吸氣，而不只是「吸飽」'
+  },
+  exhale:{
+    ey:'吐氣機制',name:'吐氣',en:'Exhalation — Passive & Active',
+    role:'彈性回彈（平靜）vs 腹肌主動推壓（強力）',
+    steps:[
+      {c:'ex',t:'（平靜）呼吸肌放鬆，肌肉停止作功'},
+      {c:'ex',t:'肺組織天生彈性帶動回彈，胸腔體積縮小'},
+      {c:'ex',t:'內壓高於大氣壓，氣體被動流出'},
+      {c:'ex',t:'（主動）腹肌收縮 → 腹腔壓升 → 推橫膈膜急速上升 → 快速排氣'}
+    ],
+    note:'平靜吐氣是完全被動的——肌肉甚麼都不用做，肺靠自身彈性完成。主動吐氣（說話、唱歌、Kapalabhati）才需要腹肌介入。這也是為什麼吐氣比吸氣更容易放鬆：它本來就不用力。',
+    yoga:'Kapalabhati（頭顱清明呼吸）的本質：腹肌反覆高速收縮主動推氣，吸氣被動反彈。訓練的不是「呼吸」本身，而是腹肌對呼吸節律的主動控制能力——這是 Pranayama 進階練習的基礎能力之一。',
+    yogaTitle:'瑜伽重點：Kapalabhati / 主動吐氣的訓練意義'
+  },
+  diaphragm:{
+    ey:'主要呼吸肌',name:'橫膈膜',en:'Diaphragm',role:'主引擎｜70–80% 吸氣工作量',
+    body:'橫膈膜是一片穹頂型骨骼肌，分隔胸腔與腹腔。吸氣時圓頂主動收縮下壓，胸腔上下徑增加 1.5–3 公分，形成壓差吸入空氣。這個動作貢獻 70–80% 的吸氣工作量。呼氣時完全放鬆上升，肺靠彈性回彈排氣。長期壓力或久坐讓橫膈膜習慣停在高位，頸部斜角肌被迫代償，導致慢性頸肩緊繃。',
+    yoga:'腹式呼吸練習的核心是感受橫膈膜充分下壓，而不是用力擴胸或聳肩。深呼吸能降低皮質醇，正是橫膈膜透過迷走神經刺激副交感系統——每一次正確的深呼吸，都是在主動重設神經系統的壓力狀態。',
+    yogaTitle:'瑜伽連結：腹式呼吸 / Ujjayi / 迷走神經刺激'
+  },
+  ribs:{
+    ey:'呼吸輔助肌',name:'肋間外肌',en:'External Intercostals',role:'副引擎｜肋骨上提外擴',
+    body:'肋間外肌填充在每對肋骨之間。吸氣時上段肋骨做「幫浦柄運動」增加胸腔前後徑，下段肋骨做「水桶柄運動」增加左右橫徑——兩個方向同時擴張，配合橫膈膜進一步增大胸腔容積。肺葉中效率最高的下肺葉，需要兩者協同才能充分通氣。',
+    yoga:'後彎體式（輪式、魚式）打開前側肋骨。側伸展（三角式、門閂式）拉伸肋間肌，增加單側活動度——對久坐者特別有效。長期圓肩駝背限制肋骨關節活動，直接壓縮可用肺容量。',
+    yogaTitle:'瑜伽連結：後彎 / 側伸展 / 360° 胸廓呼吸'
+  },
+  abs:{
+    ey:'呼氣控制肌',name:'腹肌',en:'Abdominals',role:'煞車 ＋ 主動呼氣',
+    body:'腹肌在呼吸中扮演雙重角色。吸氣時適度放鬆讓腹壁外推（「肚子鼓起」的原因），同時控制橫膈膜下沉速度如煞車。若腹肌習慣繃緊（縮小腹習慣），橫膈膜下降受限，呼吸深度可減少 20–30%。呼氣時主動收縮推腹腔向上，協助橫膈膜加速上升——說話、唱歌、高強度呼氣都靠腹肌主動驅動。',
+    yoga:'學員「縮腹」習慣造成淺呼吸非常普遍。須引導理解：吸氣腹部自然外擴是正確機制，是「讓位」不是「放棄腹力」。Kapalabhati 快速排氣正是腹肌的高速節律收縮，訓練的就是主動呼氣的控制能力。',
+    yogaTitle:'瑜伽連結：Kapalabhati / 核心意識 / 腹式呼吸誤區'
+  },
+  pelvic:{
+    ey:'核心底板',name:'骨盆底肌',en:'Pelvic Floor',role:'底板｜調節腹內壓 IAP',
+    body:'骨盆底肌是核心的底端封板，與橫膈膜、腹橫肌、多裂肌共組「核心四肌群」。吸氣時腹內壓升高，骨盆底肌輕微延伸下降，承接壓力而不塌陷；呼氣時隨腹肌收縮同步上提，完成完整的腔內壓力循環。這個彈性協調是脊椎穩定的基礎，過緊或過鬆都會破壞整體壓力管理。',
+    yoga:'Mula Bandha（根鎖）的本質是訓練骨盆底有意識感知與彈性回應，而非持續夾緊收縮。骨盆底是手平衡和倒立的核心底端支點，也是產後或久坐族核心重建訓練的真正起點。',
+    yogaTitle:'瑜伽連結：Mula Bandha / 倒立 / 手平衡 / 核心重建'
+  },
+  why:{
+    ey:'機制解說',name:'為什麼呼吸法有效',en:'Why Breathing Techniques Work',
+    body:'現代人因慢性壓力、久坐和體姿問題，習慣「胸式淺呼吸」——橫膈膜幾乎閒置，只靠肋間肌和斜角肌，效率低且輔助肌易疲勞。Pranayama 各種技法的科學效益來自三個同時發生的機制：第一，重啟橫膈膜為主的四肌協同，提升通氣效率，每次呼吸交換更多氧氣；第二，透過延長吐氣刺激迷走神經，啟動副交感系統，降低皮質醇和心率；第三，訓練核心壓力管理（IAP），同時改善脊椎穩定度。三重效益疊加，遠比「放鬆效果」複雜得多。',
+    yoga:'肺沒有肌肉。所有呼吸法的本質，都是在訓練驅動肺的那四個系統，同時透過自律神經回路影響全身。教師需要能精確告訴學員這件事——「深呼吸有用」不是信仰，是生理機制。',
+    yogaTitle:'師資重點：向學員解釋呼吸法效果的正確說法'
+  },
+  posture:{
+    ey:'結構影響',name:'為什麼姿勢影響呼吸',en:'Posture & Breathing Capacity',
+    body:'胸椎後凸（駝背）使下肋骨向下旋轉，肋骨夾角縮小，橫膈膜被迫維持在較高靜止位置，下降空間大幅受限。研究顯示在前彎 30° 的姿勢下肺活量減少超過 30%。橫膈膜代償不足後，頸部斜角肌和胸鎖乳突肌接管，長期導致頸肩慢性緊繃。脊椎自然曲線使肋骨維持最佳角度，橫膈膜在靜止位置較低，擁有完整的 1.5–3 公分活動空間，有氧效率顯著提升。',
+    yoga:'山式（Tadasana）強調軸向延伸，Warrior I 的胸腔前側打開——這些不只是美感，是在為橫膈膜創造完整的活動空間。體式對齊的生理依據在這裡：站直本身就是一次靜默的呼吸訓練。',
+    yogaTitle:'師資重點：體式對齊與呼吸效率的物理關係'
+  }
+};
+
+var bawMode='idle',bawEp=0,bawTransStart=null,bawTransFrom=0,bawTargetEp=0;
+var bawLoopPhase='inhale',bawLoopTime=0,bawLoopLast=null;
+var bawCurSel=null;
+var TRANS=800,INHALE=4000,EXHALE=4000,PAUSE=600;
+
+function bawApplyEp(ep){
+  bawEp=ep;
+  var e=ep<0.5?2*ep*ep:-1+(4-2*ep)*ep;
+  var diaph=document.getElementById('baw-diaph');
+  var ll=document.getElementById('baw-lung-l'),lr=document.getElementById('baw-lung-r');
+  var ab=document.getElementById('baw-abs'),pv=document.getElementById('baw-pelv');
+  var rb=document.getElementById('baw-ribs');
+  if(diaph)diaph.style.transform='translateY('+(e*16)+'px)';
+  if(ll)ll.style.transform='scale('+(1+e*0.09)+')';
+  if(lr)lr.style.transform='scale('+(1+e*0.09)+')';
+  if(ab)ab.style.transform='translateY('+(e*9)+'px)';
+  if(pv)pv.style.transform='translateY('+(e*5)+'px)';
+  if(rb)rb.style.transform='scaleX('+(1+e*0.05)+')';
+  var fill=document.getElementById('baw-fill');
+  if(fill){fill.style.width=(ep*100)+'%';fill.style.background=ep>0.4?'#7eb8c9':'#c9a87e';}
+}
+
+function bawSetArrows(isIn){
+  var ad=document.getElementById('baw-ad'),
+      all=document.getElementById('baw-all'),alr=document.getElementById('baw-alr'),
+      aa=document.getElementById('baw-aa'),ap=document.getElementById('baw-ap');
+  if(isIn){
+    if(ad){ad.setAttribute('x1',160);ad.setAttribute('y1',300);ad.setAttribute('x2',160);ad.setAttribute('y2',316);}
+    if(all){all.setAttribute('x1',80);all.setAttribute('y1',192);all.setAttribute('x2',62);all.setAttribute('y2',192);}
+    if(alr){alr.setAttribute('x1',240);alr.setAttribute('y1',192);alr.setAttribute('x2',258);alr.setAttribute('y2',192);}
+    if(aa){aa.setAttribute('x1',160);aa.setAttribute('y1',368);aa.setAttribute('x2',160);aa.setAttribute('y2',383);}
+    if(ap){ap.setAttribute('x1',160);ap.setAttribute('y1',420);ap.setAttribute('x2',160);ap.setAttribute('y2',434);}
+  } else {
+    if(ad){ad.setAttribute('x1',160);ad.setAttribute('y1',316);ad.setAttribute('x2',160);ad.setAttribute('y2',300);}
+    if(all){all.setAttribute('x1',62);all.setAttribute('y1',192);all.setAttribute('x2',80);all.setAttribute('y2',192);}
+    if(alr){alr.setAttribute('x1',258);alr.setAttribute('y1',192);alr.setAttribute('x2',240);alr.setAttribute('y2',192);}
+    if(aa){aa.setAttribute('x1',160);aa.setAttribute('y1',383);aa.setAttribute('x2',160);aa.setAttribute('y2',368);}
+    if(ap){ap.setAttribute('x1',160);ap.setAttribute('y1',434);ap.setAttribute('x2',160);ap.setAttribute('y2',420);}
+  }
+}
+
+function bawBtnState(active){
+  ['baw-btn-in','baw-btn-ex','baw-btn-loop'].forEach(function(id){
+    document.getElementById(id).classList.remove('on');
+  });
+  if(active)document.getElementById(active).classList.add('on');
+}
+
+function bawPhaseBtn(phase){
+  var isIn=(phase==='inhale');
+  bawMode=isIn?'to-inhale':'to-exhale';
+  bawTargetEp=isIn?1:0;
+  bawTransFrom=bawEp;
+  bawTransStart=null;
+  bawLoopLast=null;
+  bawBtnState(isIn?'baw-btn-in':'baw-btn-ex');
+  var lbl=document.getElementById('baw-lbl'),pht=document.getElementById('baw-ph-txt');
+  if(lbl)lbl.textContent=isIn?'吸氣':'吐氣';
+  if(pht)pht.textContent=isIn?'吸氣狀態':'吐氣狀態';
+  document.getElementById('baw-arrows').style.opacity='1';
+  bawSetArrows(isIn);
+  bawShowCard(phase);
+  requestAnimationFrame(bawAnimate);
+}
+
+function bawLoopBtn(){
+  var btn=document.getElementById('baw-btn-loop');
+  if(bawMode==='loop'){
+    bawMode='idle';
+    bawBtnState(null);
+    bawApplyEp(0);
+    document.getElementById('baw-arrows').style.opacity='0';
+    var lbl=document.getElementById('baw-lbl'),pht=document.getElementById('baw-ph-txt');
+    if(lbl)lbl.textContent='—';if(pht)pht.textContent='選擇模式';
+  } else {
+    bawMode='loop';bawLoopPhase='inhale';bawLoopTime=0;bawLoopLast=null;
+    bawBtnState('baw-btn-loop');
+    document.getElementById('baw-arrows').style.opacity='1';
+    requestAnimationFrame(bawAnimate);
+  }
+}
+
+function bawAnimate(ts){
+  if(bawMode==='idle')return;
+  if(bawMode==='to-inhale'||bawMode==='to-exhale'){
+    if(!bawTransStart)bawTransStart=ts;
+    var elapsed=ts-bawTransStart;
+    var p=Math.min(elapsed/TRANS,1);
+    var pe=p<0.5?2*p*p:-1+(4-2*p)*p;
+    bawApplyEp(bawTransFrom+(bawTargetEp-bawTransFrom)*pe);
+    if(p<1){requestAnimationFrame(bawAnimate);}
+    else{bawApplyEp(bawTargetEp);bawMode=bawTargetEp>0.5?'inhale-hold':'exhale-hold';}
+    return;
+  }
+  if(bawMode==='inhale-hold'||bawMode==='exhale-hold')return;
+  if(bawMode==='loop'){
+    if(!bawLoopLast)bawLoopLast=ts;
+    var dt=ts-bawLoopLast;bawLoopLast=ts;bawLoopTime+=dt;
+    var lbl=document.getElementById('baw-lbl'),pht=document.getElementById('baw-ph-txt');
+    var ep;
+    if(bawLoopPhase==='inhale'){
+      ep=Math.min(bawLoopTime/INHALE,1);
+      if(lbl)lbl.textContent='吸氣';if(pht)pht.textContent='吸…';
+      bawSetArrows(true);
+      if(bawLoopTime>=INHALE){bawLoopPhase='exhale';bawLoopTime=0;}
+    } else if(bawLoopPhase==='exhale'){
+      ep=1-Math.min(bawLoopTime/EXHALE,1);
+      if(lbl)lbl.textContent='吐氣';if(pht)pht.textContent='吐…';
+      bawSetArrows(false);
+      if(bawLoopTime>=EXHALE){bawLoopPhase='pause';bawLoopTime=0;}
+    } else {
+      ep=0;if(lbl)lbl.textContent='—';if(pht)pht.textContent='';
+      if(bawLoopTime>=PAUSE){bawLoopPhase='inhale';bawLoopTime=0;}
+    }
+    bawApplyEp(ep);
+    requestAnimationFrame(bawAnimate);
+  }
+}
+
+function bawShowCard(id){
+  var d=BAW[id];if(!d)return;
+  var card=document.getElementById('baw-card');
+  var html='<div class="baw-cey">'+d.ey+'</div>'
+    +'<div class="baw-cn">'+d.name+'</div>'
+    +'<div class="baw-cen">'+d.en+'</div>'
+    +'<div class="baw-crole">'+d.role+'</div>';
+  if(d.steps){
+    html+='<div class="baw-ch3">波義耳定律 — 呼吸邏輯</div><div class="baw-steps">';
+    d.steps.forEach(function(s,i){
+      html+='<div class="baw-step"><span class="baw-step-n '+s.c+'">'+(i+1)+'</span><span>'+s.t+'</span></div>';
+      if(i<d.steps.length-1)html+='<div class="baw-step-arr">↓</div>';
+    });
+    html+='</div>';
+    html+='<div class="baw-note">'+d.note+'</div>';
+  } else {
+    html+='<div class="baw-ch3">機制說明</div><p class="baw-cp">'+d.body+'</p>';
+  }
+  html+='<div class="baw-yoga"><strong>'+d.yogaTitle+'</strong><p>'+d.yoga+'</p></div>';
+  card.innerHTML=html;
+}
+
+function bawSelect(id){
+  bawCurSel=id;
+  document.querySelectorAll('.baw-pb').forEach(function(b){b.classList.remove('on');});
+  var pb=document.getElementById('baw-pb-'+id);if(pb)pb.classList.add('on');
+  document.querySelectorAll('.baw-part').forEach(function(p){p.classList.remove('active');});
+  var svgMap={diaphragm:'baw-diaph',ribs:['baw-ribs','baw-lung-l','baw-lung-r'],abs:'baw-abs',pelvic:'baw-pelv'};
+  var t=svgMap[id];
+  if(t){
+    if(Array.isArray(t)){t.forEach(function(x){var el=document.getElementById(x);if(el)el.classList.add('active');});}
+    else{var el=document.getElementById(t);if(el)el.classList.add('active');}
+  }
+  bawShowCard(id);
+}
+</script>
